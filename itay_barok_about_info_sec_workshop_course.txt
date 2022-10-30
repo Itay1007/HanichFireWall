@@ -1,0 +1,36 @@
+GRADE ASPECTS
+	50% work with Adam on specalutive exceution
+	50% exam
+
+	[+] maybe can talk with them in the personal forum
+	about opening me the 30 mins after class questionir
+
+
+STUDENTS LECTURE ASPECTS
+5 last lectures are of students
+story about 2 papers from the subject
+30 - 40 mins of a lecture
+	[+] should get the dates and update Omer about them
+	[+] should talk with Adam about the dates and close with the lectures the date and the subject and 2 papers
+
+
+CLASS TOPICS
+	overflows and malicious code execution
+	computing of artificial intelligence
+	microarchitecture: speculative execution and predictors in modern CPUs
+	performance: Benchmarking and Optimizing Performance
+	multiprocessor programming: synchronization locks, lock-free and transactional - memory
+	virtual memory
+	industrial lecture
+	
+OVERFLOWS AND MALICIOUS CODE EXECUTION
+	stack
+	stack overflow (e.g. the web func using sprintf)
+	memory endianness
+	overflow mitigation (W^X pages on linux DEP on windows)
+	ROP (especially Intel 'cause variable length instructions, ROP generator)
+	ROP mitigations (ASLR)
+	address memory leaks of current process
+	ROP mitigations (compiler that avoid 0xC3 bytes aka RET, shadow stack)
+
+	
