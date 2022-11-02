@@ -6,33 +6,64 @@
 #define NF_DROP 0
 #define NF_ACCEPT 1
 
-static struct nf_hook_ops *nf_net_hook = NULL;
+MODULE_LICENSE("GPL");
+
+static struct nf_hook_ops *nf_net_forward_hook = NULL;
+static struct nf_hook_ops *nf_net_local_in_hook = NULL;
+static struct nf_hook_ops *nf_net_local_out_hook = NULL;
 
 
-static unsigned int netfilter_hookfn(void *priv, struct sk_buff *skb, const struct nf_hook_state *state) {
-	printk(KERN_INFO "In hook function!\n");
+static unsigned int netfilter_forward_hook(void *priv, struct sk_buff *skb, const struct nf_hook_state *state) {
+	printk(KERN_INFO "Hook Function Forward!\n");
+	return NF_DROP;
+}
 
-	if(!skb) {
-		printk(KERN_INFO "skb is null in hook function\n");
-		return NF_ACCEPT;
-	}
+static unsigned int netfilter_local_in_hook(void *priv, struct sk_buff *skb, const struct nf_hook_state *state) {
+	printk(KERN_INFO "Hook Function Local In!\n");
+	return NF_ACCEPT;
+}
+
+static unsigned int netfilter_local_out_hook(void *priv, struct sk_buff *skb, const struct nf_hook_state *state) {
+	printk(KERN_INFO "Hook Function Local Out!\n");
 	return NF_ACCEPT;
 }
 
 
 // init function that is called when the module is loaded to the kernel
 static int __init my_module_init_function(void) {
-	printk(KERN_INFO "Hello World!\n");
+	printk(KERN_INFO "Hello World Init Module!\n");
 	
-	nf_net_hook = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
+	nf_net_forward_hook = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
 	
-	if(nf_net_hook != NULL) {
-		nf_net_hook->hook = (nf_hookfn*)netfilter_hookfn;
-		nf_net_hook->hooknum = NF_INET_PRE_ROUTING;
-		nf_net_hook->pf = 0;
-		nf_net_hook->priority = 0;
+	nf_net_local_in_hook = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
+	
+	nf_net_local_out_hook = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
 
-		nf_register_net_hook(&init_net, nf_net_hook);
+	if(nf_net_forward_hook != NULL) {
+		nf_net_forward_hook->hook = (nf_hookfn*)netfilter_forward_hook;
+		nf_net_forward_hook->hooknum = NF_INET_FORWARD;
+		nf_net_forward_hook->pf = PF_INET;
+		nf_net_forward_hook->priority = 0;
+
+		nf_register_net_hook(&init_net, nf_net_forward_hook);
+	}	
+
+	if(nf_net_local_in_hook != NULL) {
+		nf_net_local_in_hook->hook = (nf_hookfn*)netfilter_local_in_hook;
+		nf_net_local_in_hook->hooknum = NF_INET_LOCAL_IN;
+		nf_net_local_in_hook->pf = PF_INET;
+		nf_net_local_in_hook->priority = 0;
+
+		nf_register_net_hook(&init_net, nf_net_local_in_hook);
+	}	
+
+	if(nf_net_local_out_hook != NULL) {
+		nf_net_local_out_hook->hook = (nf_hookfn*)netfilter_local_out_hook;
+		nf_net_local_out_hook->hooknum = NF_INET_LOCAL_OUT;
+		nf_net_local_out_hook->pf = PF_INET;
+		nf_net_local_out_hook->priority = 0;
+
+		nf_register_net_hook(&init_net, nf_net_local_out_hook);
 	}	
 
 	return 0;
@@ -40,12 +71,22 @@ static int __init my_module_init_function(void) {
 
 // exit function that is called when the module is removed from the kernel
 static void __exit my_module_exit_function(void) {
-	if(nf_net_hook != NULL) {
-		nf_unregister_net_hook(&init_net, nf_net_hook);
-		kfree(nf_net_hook);
+	if(nf_net_forward_hook != NULL) {
+		nf_unregister_net_hook(&init_net, nf_net_forward_hook);
+		kfree(nf_net_forward_hook);
 	}
 
-	printk(KERN_INFO "Goodbye World!\n");
+	if(nf_net_local_in_hook != NULL) {
+		nf_unregister_net_hook(&init_net, nf_net_local_in_hook);
+		kfree(nf_net_local_in_hook);
+	}
+
+	if(nf_net_local_out_hook != NULL) {
+		nf_unregister_net_hook(&init_net, nf_net_local_out_hook);
+		kfree(nf_net_local_out_hook);
+	}
+
+	printk(KERN_INFO "Goodbye World Exit Module!\n");
 }
 
 
