@@ -19,7 +19,6 @@ static struct nf_hook_ops *nf_net_local_out_hook = NULL;
 // drop packets that go through the firewall to another host.
 // The firewall drops the packets and log it in kernel ring
 static unsigned int netfilter_forward_hook(void *priv, struct sk_buff *skb, const struct nf_hook_state *state) {
-	// printk(KERN_INFO "Hook Function Forward!\n");
 	printk(KERN_INFO DROP_PACKET_MESSAGE);
 	return NF_DROP;
 }
@@ -27,7 +26,6 @@ static unsigned int netfilter_forward_hook(void *priv, struct sk_buff *skb, cons
 // accept packets that go in to the firewall to another host.
 // The firewall accepts the packets and log it in kernel ring
 static unsigned int netfilter_local_in_hook(void *priv, struct sk_buff *skb, const struct nf_hook_state *state) {
-	// printk(KERN_INFO "Hook Function Local In!\n");
 	printk(KERN_INFO ACCEPT_PACKET_MESSAGE);
 	return NF_ACCEPT;
 }
@@ -35,7 +33,6 @@ static unsigned int netfilter_local_in_hook(void *priv, struct sk_buff *skb, con
 // accept packets that go from the firewall to another host.
 // The firewall accepts the packets and log it in kernel ring
 static unsigned int netfilter_local_out_hook(void *priv, struct sk_buff *skb, const struct nf_hook_state *state) {
-	// printk(KERN_INFO "Hook Function Local Out!\n");
 	printk(KERN_INFO ACCEPT_PACKET_MESSAGE);
 	return NF_ACCEPT;
 }
@@ -43,8 +40,6 @@ static unsigned int netfilter_local_out_hook(void *priv, struct sk_buff *skb, co
 
 // init function that is called when the module is loaded to the kernel
 static int __init my_module_init_function(void) {
-	// printk(KERN_INFO "Hello World Init Module!\n");
-	
 	nf_net_forward_hook = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
 	
 	nf_net_local_in_hook = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
@@ -112,8 +107,6 @@ static void __exit my_module_exit_function(void) {
 		nf_unregister_net_hook(&init_net, nf_net_local_out_hook);
 		kfree(nf_net_local_out_hook);
 	}
-
-	// printk(KERN_INFO "Goodbye World Exit Module!\n");
 }
 
 
