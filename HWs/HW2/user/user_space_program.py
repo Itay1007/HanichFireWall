@@ -35,16 +35,16 @@ def validate_user_input(argc, argv):
     if argc == 1:
         return
     elif argc > 2:
-        print("Usage: ./user_space_program [0]\nDo not add one optional reset parameter to the program")
+        print("Usage: ./user_space_program [0]\nDo not add more than one parameter to the program")
         exit(0)
 
     try:
         reset_option = int(argv[1])
         if reset_option != 0:
-            print("Optional parameter should be set to '0'")
+            print("Optional parameter if given should be set to '0'")
             exit(0)
-    except TypeError as e:
-        print("The optional argument should be set to '0'")
+    except ValueError as e:
+        print("Optional parameter if given should be set to '0'")
         exit(0)
 
 
