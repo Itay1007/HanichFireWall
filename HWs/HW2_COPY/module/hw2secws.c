@@ -22,6 +22,7 @@ static struct class* sysfs_class = NULL;
 static struct device* sysfs_device = NULL;
 
 static unsigned int sysfs_int = 0;
+static unsigned int sysfs_int_2 = 0;
 
 static struct file_operations fops = {
 	.owner = THIS_MODULE
@@ -64,7 +65,25 @@ ssize_t modify(struct device *dev, struct device_attribute *attr, const char *bu
 	return count;
 }
 
+// sysfs show function, the function that read from the attribute to the user
+ssize_t display_2(struct device *dev, struct device_attribute *attr, char *buf) {
+	return scnprintf(buf, PAGE_SIZE, "%u\n", sysfs_int_2);
+}
+
+// sysfs store function, the function that writes to the attribute from the user
+ssize_t modify_2(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
+	int temp;
+	if(sscanf(buf, "%u", &temp) == 1) {
+		sysfs_int_2 = temp;
+	}
+
+	return count;
+}
+
+
 static DEVICE_ATTR(sysfs_att, S_IWUSR | S_IRUGO, display, modify);
+static DEVICE_ATTR(sysfs_att_2, S_IWUSR | S_IRUGO, display_2, modify_2);
+
 
 // init function that is called when the module is loaded to the kernel
 static int __init my_module_init_function(void) {
@@ -141,6 +160,13 @@ static int __init my_module_init_function(void) {
 		return -1;
 	}
 
+	if(device_create_file(sysfs_device, (const struct device_attribute *)&dev_attr_sysfs_att_2.attr)){
+		device_destroy(sysfs_class, MKDEV(major_number, 0));
+		class_destroy(sysfs_class);
+		unregister_chrdev(major_number, "Sysfs_Device");
+		return -1;
+	}	
+
 	return 0;
 }
 
@@ -161,6 +187,7 @@ static void __exit my_module_exit_function(void) {
 		kfree(nf_net_local_out_hook);
 	}
 
+	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_sysfs_att_2.attr);
 	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
 	device_destroy(sysfs_class, MKDEV(major_number, 0));
 	class_destroy(sysfs_class);
