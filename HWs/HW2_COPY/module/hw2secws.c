@@ -60,11 +60,7 @@ ssize_t display(struct device *dev, struct device_attribute *attr, char *buf) {
 
 // sysfs store function, the function that writes to the attribute from the user
 ssize_t modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
-	int temp;
-	if(sscanf(buf, "%u", &temp) == 1) {
-		accepted_packets_counter = temp;
-	}
-
+	accepted_packets_counter = 0;
 	return count;
 }
 
@@ -75,11 +71,7 @@ ssize_t display_2(struct device *dev, struct device_attribute *attr, char *buf) 
 
 // sysfs store function, the function that writes to the attribute from the user
 ssize_t modify_2(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
-	int temp;
-	if(sscanf(buf, "%u", &temp) == 1) {
-		dropped_packets_counter = temp;
-	}
-
+	dropped_packets_counter = 0;
 	return count;
 }
 
