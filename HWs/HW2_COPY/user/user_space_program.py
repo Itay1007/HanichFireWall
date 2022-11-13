@@ -49,9 +49,7 @@ def validate_user_input(argc, argv):
 
 
 def main(argc, argv):
-    print("In main")
     validate_user_input(argc, argv)
-    print("after main validation")
     perform_reset = (argc == 2)
     if perform_reset:
         reset_fw_state()
