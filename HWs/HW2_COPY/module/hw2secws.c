@@ -15,7 +15,7 @@ MODULE_AUTHOR("Itay Barok");
 
 static struct nf_hook_ops *nf_net_forward_hook = NULL;
 static struct nf_hook_ops *nf_net_local_in_hook = NULL;
-// static struct nf_hook_ops *nf_net_local_out_hook = NULL;
+static struct nf_hook_ops *nf_net_local_out_hook = NULL;
 
 static int major_number;
 static struct class* sysfs_class = NULL;
@@ -43,10 +43,10 @@ static unsigned int netfilter_local_in_hook(void *priv, struct sk_buff *skb, con
 
 // accept packets that go from the firewall to another host.
 // The firewall accepts the packets and log it in kernel ring
-// static unsigned int netfilter_local_out_hook(void *priv, struct sk_buff *skb, const struct nf_hook_state *state) {
-// 	printk(KERN_INFO ACCEPT_PACKET_MESSAGE);
-// 	return NF_ACCEPT;
-// }
+static unsigned int netfilter_local_out_hook(void *priv, struct sk_buff *skb, const struct nf_hook_state *state) {
+	printk(KERN_INFO ACCEPT_PACKET_MESSAGE);
+	return NF_ACCEPT;
+}
 
 // sysfs show function, the function that read from the attribute to the user
 ssize_t display(struct device *dev, struct device_attribute *attr, char *buf) {
@@ -72,7 +72,7 @@ static int __init my_module_init_function(void) {
 	
 	nf_net_local_in_hook = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
 	
-	// nf_net_local_out_hook = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
+	nf_net_local_out_hook = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
 
 	if(nf_net_forward_hook != NULL) {
 		nf_net_forward_hook->hook = (nf_hookfn*)netfilter_forward_hook;
@@ -102,19 +102,19 @@ static int __init my_module_init_function(void) {
 		return -1;
 	}	
 
-	// if(nf_net_local_out_hook != NULL) {
-	// 	nf_net_local_out_hook->hook = (nf_hookfn*)netfilter_local_out_hook;
-	// 	nf_net_local_out_hook->hooknum = NF_INET_LOCAL_OUT;
-	// 	nf_net_local_out_hook->pf = PF_INET;
-	// 	nf_net_local_out_hook->priority = 0;
+	if(nf_net_local_out_hook != NULL) {
+		nf_net_local_out_hook->hook = (nf_hookfn*)netfilter_local_out_hook;
+		nf_net_local_out_hook->hooknum = NF_INET_LOCAL_OUT;
+		nf_net_local_out_hook->pf = PF_INET;
+		nf_net_local_out_hook->priority = 0;
 
-	// 	if(nf_register_net_hook(&init_net, nf_net_local_out_hook)) {
-	// 		return -1;
-	// 	}
-	// }
-	// else {
-	// 	return -1;
-	// }
+		if(nf_register_net_hook(&init_net, nf_net_local_out_hook)) {
+			return -1;
+		}
+	}
+	else {
+		return -1;
+	}
 
 	major_number = register_chrdev(0, "Sysfs_Device", &fops);\
 	if(major_number < 0) {
@@ -156,10 +156,10 @@ static void __exit my_module_exit_function(void) {
 		kfree(nf_net_local_in_hook);
 	}
 
-	// if(nf_net_local_out_hook != NULL) {
-	// 	nf_unregister_net_hook(&init_net, nf_net_local_out_hook);
-	// 	kfree(nf_net_local_out_hook);
-	// }
+	if(nf_net_local_out_hook != NULL) {
+		nf_unregister_net_hook(&init_net, nf_net_local_out_hook);
+		kfree(nf_net_local_out_hook);
+	}
 
 	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
 	device_destroy(sysfs_class, MKDEV(major_number, 0));
