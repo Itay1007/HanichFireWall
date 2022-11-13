@@ -21,8 +21,8 @@ static int major_number;
 static struct class* sysfs_class = NULL;
 static struct device* sysfs_device = NULL;
 
-static unsigned int sysfs_int = 0;
-static unsigned int sysfs_int_2 = 0;
+static unsigned int accpeted_packets_counter = 0;
+static unsigned int dropped_packets_counter = 0;
 
 static struct file_operations fops = {
 	.owner = THIS_MODULE
@@ -51,7 +51,7 @@ static unsigned int netfilter_local_out_hook(void *priv, struct sk_buff *skb, co
 
 // sysfs show function, the function that read from the attribute to the user
 ssize_t display(struct device *dev, struct device_attribute *attr, char *buf) {
-	return scnprintf(buf, PAGE_SIZE, "%u\n", sysfs_int);
+	return scnprintf(buf, PAGE_SIZE, "%u\n", accpeted_packets_counter);
 }
 
 
@@ -59,7 +59,7 @@ ssize_t display(struct device *dev, struct device_attribute *attr, char *buf) {
 ssize_t modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
 	int temp;
 	if(sscanf(buf, "%u", &temp) == 1) {
-		sysfs_int = temp;
+		accpeted_packets_counter = temp;
 	}
 
 	return count;
@@ -67,14 +67,14 @@ ssize_t modify(struct device *dev, struct device_attribute *attr, const char *bu
 
 // sysfs show function, the function that read from the attribute to the user
 ssize_t display_2(struct device *dev, struct device_attribute *attr, char *buf) {
-	return scnprintf(buf, PAGE_SIZE, "%u\n", sysfs_int_2);
+	return scnprintf(buf, PAGE_SIZE, "%u\n", dropped_packets_counter);
 }
 
 // sysfs store function, the function that writes to the attribute from the user
 ssize_t modify_2(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
 	int temp;
 	if(sscanf(buf, "%u", &temp) == 1) {
-		sysfs_int_2 = temp;
+		dropped_packets_counter = temp;
 	}
 
 	return count;
