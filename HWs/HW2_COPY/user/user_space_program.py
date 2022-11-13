@@ -3,13 +3,12 @@ import sys
 
 def show_fw_state():
     accepted_packets_counter_attr_fd = open(
-        "/sys/class/fw_sysfs_class/fw_sysfs_device/fw_sysfs_att_dropped_packets_counter", "r")
+        "/sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att", "r")
     accepted_packets_counter = int(accepted_packets_counter_attr_fd.read())
     accepted_packets_counter_attr_fd.close()
 
     dropped_packets_counter_attr_fd = open(
-        "/sys/class/fw_sysfs_class/fw_sysfs_device/fw_sysfs_att_accepted_packets_counter", "r")
-
+        "/sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att_2", "r")
     dropped_packets_counter = int(dropped_packets_counter_attr_fd.read())
     dropped_packets_counter_attr_fd.close()
 
