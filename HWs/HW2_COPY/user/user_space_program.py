@@ -21,7 +21,7 @@ def show_fw_state():
 
 
 def reset_fw_state():
-    accepted_packets_counter_attr_fd = open("/sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att", "w"):
+    accepted_packets_counter_attr_fd = open("/sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att", "w")
     accepted_packets_counter_attr_fd.truncate()
     accepted_packets_counter_attr_fd.write("0")
     accepted_packets_counter_attr_fd.close()
