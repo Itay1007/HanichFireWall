@@ -14,7 +14,7 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Itay Barok");
 
 static struct nf_hook_ops *nf_net_forward_hook = NULL;
-// static struct nf_hook_ops *nf_net_local_in_hook = NULL;
+static struct nf_hook_ops *nf_net_local_in_hook = NULL;
 // static struct nf_hook_ops *nf_net_local_out_hook = NULL;
 
 static int major_number;
@@ -36,10 +36,10 @@ static unsigned int netfilter_forward_hook(void *priv, struct sk_buff *skb, cons
 
 // accept packets that go in to the firewall to another host.
 // The firewall accepts the packets and log it in kernel ring
-// static unsigned int netfilter_local_in_hook(void *priv, struct sk_buff *skb, const struct nf_hook_state *state) {
-// 	printk(KERN_INFO ACCEPT_PACKET_MESSAGE);
-// 	return NF_ACCEPT;
-// }
+static unsigned int netfilter_local_in_hook(void *priv, struct sk_buff *skb, const struct nf_hook_state *state) {
+	printk(KERN_INFO ACCEPT_PACKET_MESSAGE);
+	return NF_ACCEPT;
+}
 
 // accept packets that go from the firewall to another host.
 // The firewall accepts the packets and log it in kernel ring
@@ -70,7 +70,7 @@ static DEVICE_ATTR(sysfs_att, S_IWUSR | S_IRUGO, display, modify);
 static int __init my_module_init_function(void) {
 	nf_net_forward_hook = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
 	
-	// nf_net_local_in_hook = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
+	nf_net_local_in_hook = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
 	
 	// nf_net_local_out_hook = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
 
@@ -88,19 +88,19 @@ static int __init my_module_init_function(void) {
 		return -1;
 	}	
 
-	// if(nf_net_local_in_hook != NULL) {
-	// 	nf_net_local_in_hook->hook = (nf_hookfn*)netfilter_local_in_hook;
-	// 	nf_net_local_in_hook->hooknum = NF_INET_LOCAL_IN;
-	// 	nf_net_local_in_hook->pf = PF_INET;
-	// 	nf_net_local_in_hook->priority = 0;
+	if(nf_net_local_in_hook != NULL) {
+		nf_net_local_in_hook->hook = (nf_hookfn*)netfilter_local_in_hook;
+		nf_net_local_in_hook->hooknum = NF_INET_LOCAL_IN;
+		nf_net_local_in_hook->pf = PF_INET;
+		nf_net_local_in_hook->priority = 0;
 
-	// 	if(nf_register_net_hook(&init_net, nf_net_local_in_hook)) {
-	// 		return -1;	
-	// 	}
-	// }
-	// else {
-	// 	return -1;
-	// }	
+		if(nf_register_net_hook(&init_net, nf_net_local_in_hook)) {
+			return -1;	
+		}
+	}
+	else {
+		return -1;
+	}	
 
 	// if(nf_net_local_out_hook != NULL) {
 	// 	nf_net_local_out_hook->hook = (nf_hookfn*)netfilter_local_out_hook;
@@ -151,10 +151,10 @@ static void __exit my_module_exit_function(void) {
 		kfree(nf_net_forward_hook);
 	}
 
-	// if(nf_net_local_in_hook != NULL) {
-	// 	nf_unregister_net_hook(&init_net, nf_net_local_in_hook);
-	// 	kfree(nf_net_local_in_hook);
-	// }
+	if(nf_net_local_in_hook != NULL) {
+		nf_unregister_net_hook(&init_net, nf_net_local_in_hook);
+		kfree(nf_net_local_in_hook);
+	}
 
 	// if(nf_net_local_out_hook != NULL) {
 	// 	nf_unregister_net_hook(&init_net, nf_net_local_out_hook);
