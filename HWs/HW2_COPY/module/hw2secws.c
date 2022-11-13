@@ -32,6 +32,7 @@ static struct file_operations fops = {
 // The firewall drops the packets and log it in kernel ring
 static unsigned int netfilter_forward_hook(void *priv, struct sk_buff *skb, const struct nf_hook_state *state) {
 	printk(KERN_INFO DROP_PACKET_MESSAGE);
+	dropped_packets_counter++;
 	return NF_DROP;
 }
 
@@ -39,6 +40,7 @@ static unsigned int netfilter_forward_hook(void *priv, struct sk_buff *skb, cons
 // The firewall accepts the packets and log it in kernel ring
 static unsigned int netfilter_local_in_hook(void *priv, struct sk_buff *skb, const struct nf_hook_state *state) {
 	printk(KERN_INFO ACCEPT_PACKET_MESSAGE);
+	accepted_packets_counter++;
 	return NF_ACCEPT;
 }
 
@@ -46,6 +48,7 @@ static unsigned int netfilter_local_in_hook(void *priv, struct sk_buff *skb, con
 // The firewall accepts the packets and log it in kernel ring
 static unsigned int netfilter_local_out_hook(void *priv, struct sk_buff *skb, const struct nf_hook_state *state) {
 	printk(KERN_INFO ACCEPT_PACKET_MESSAGE);
+	accepted_packets_counter++;
 	return NF_ACCEPT;
 }
 
