@@ -21,11 +21,11 @@ def show_fw_state():
 
 
 def reset_fw_state():
-    with open("/sys/class/fw_sysfs_class/fw_sysfs_device/fw_sysfs_att_dropped_packets_counter",
+    with open("/sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att",
               "w") as accepted_packets_counter_attr_fd:
         accepted_packets_counter_attr_fd.write("")
 
-    with open("/sys/class/fw_sysfs_class/fw_sysfs_device/fw_sysfs_att_accepted_packets_counter",
+    with open("/sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att_2",
               "w") as dropped_packets_counter_attr_fd:
         dropped_packets_counter_attr_fd.write("")
 
