@@ -21,16 +21,15 @@ def show_fw_state():
 
 
 def reset_fw_state():
-    with open("/sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att",
-              "w") as accepted_packets_counter_attr_fd:
-        accepted_packets_counter_attr_fd.truncate()
-        accepted_packets_counter_attr_fd.write("0")
+    accepted_packets_counter_attr_fd = open("/sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att", "w"):
+    accepted_packets_counter_attr_fd.truncate()
+    accepted_packets_counter_attr_fd.write("0")
+    accepted_packets_counter_attr_fd.close()
 
-    with open("/sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att_2",
-              "w") as dropped_packets_counter_attr_fd:
-        accepted_packets_counter_attr_fd.truncate()
-        dropped_packets_counter_attr_fd.write("0")
-
+    dropped_packets_counter_attr_fd = open("/sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att_2", "w")
+    dropped_packets_counter_attr_fd.truncate()
+    dropped_packets_counter_attr_fd.write("0")
+    dropped_packets_counter_attr_fd.close()
 
 def validate_user_input(argc, argv):
     if argc == 1:
