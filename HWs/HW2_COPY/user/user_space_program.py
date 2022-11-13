@@ -15,9 +15,9 @@ def show_fw_state():
     total_packets_counter = accepted_packets_counter + dropped_packets_counter
 
     print("Firewall Packets Summary:")
-    print(f"Number of accepted packets: {accepted_packets_counter}")
-    print(f"Number of dropped packets: {dropped_packets_counter}")
-    print(f"Total number of packets: {total_packets_counter}")
+    print("Number of accepted packets: ", accepted_packets_counter)
+    print("Number of dropped packets: ", dropped_packets_counter)
+    print("Total number of packets: ", total_packets_counter)
 
 
 def reset_fw_state():
