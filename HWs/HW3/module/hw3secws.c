@@ -13,15 +13,6 @@
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Itay Barok");
 
-// code in the static_rules_table.c
-void initialize_static_rules_table();
-void add_to_static_rules_table();
-void remove_from_static_rules_table();
-
-// code in the log_table.c
-void initialize_log_table();
-void add_to_log_table();
-void remove_from_static_rules_table();
 
 static struct nf_hook_ops *nf_net_forward_hook = NULL;
 
