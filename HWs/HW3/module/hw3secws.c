@@ -19,7 +19,6 @@ static struct nf_hook_ops *nf_net_forward_hook = NULL;
 static int major_number;
 static struct class* sysfs_class = NULL;
 static struct device* sysfs_device = NULL;
-static struct device* sysfs_device_2 = NULL;
 
 
 static unsigned int accepted_packets_counter = 0;
@@ -106,13 +105,6 @@ static int __init my_module_init_function(void) {
 		return -1;
 	}
 
-	sysfs_device_2 = device_create(sysfs_class, NULL, MKDEV(major_number, 0), NULL, "log");
-	if(IS_ERR(sysfs_device)) {
-		class_destroy(sysfs_class);
-		unregister_chrdev(major_number, "Sysfs_Device");
-		return -1;
-	}
-
 	if(device_create_file(sysfs_device, (const struct device_attribute *)&dev_attr_rules.attr)){
 		device_destroy(sysfs_class, MKDEV(major_number, 0));
 		class_destroy(sysfs_class);
@@ -120,7 +112,7 @@ static int __init my_module_init_function(void) {
 		return -1;
 	}
 
-	if(device_create_file(sysfs_device_2, (const struct device_attribute *)&dev_attr_sysfs_att_3.attr)){
+	if(device_create_file(sysfs_device, (const struct device_attribute *)&dev_attr_sysfs_att_3.attr)){
 		device_destroy(sysfs_class, MKDEV(major_number, 0));
 		class_destroy(sysfs_class);
 		unregister_chrdev(major_number, "Sysfs_Device");
@@ -137,7 +129,7 @@ static void __exit my_module_exit_function(void) {
 		kfree(nf_net_forward_hook);
 	}
 
-	device_remove_file(sysfs_device_2, (const struct device_attribute *)&dev_attr_sysfs_att_3.attr);
+	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_sysfs_att_3.attr);
 	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_rules.attr);
 	device_destroy(sysfs_class, MKDEV(major_number, 0));
 	class_destroy(sysfs_class);
