@@ -64,7 +64,7 @@ ssize_t modify_2(struct device *dev, struct device_attribute *attr, const char *
 }
 
 
-static DEVICE_ATTR(sysfs_att, S_IWUSR | S_IRUGO, display, modify);
+static DEVICE_ATTR(rules, S_IWUSR | S_IRUGO, display, modify);
 static DEVICE_ATTR(sysfs_att_3, S_IWUSR | S_IRUGO, display_2, modify_2);
 
 
@@ -104,7 +104,7 @@ static int __init my_module_init_function(void) {
 		return -1;
 	}
 
-	if(device_create_file(sysfs_device, (const struct device_attribute *)&dev_attr_sysfs_att.attr)){
+	if(device_create_file(sysfs_device, (const struct device_attribute *)&dev_attr_rules.attr)){
 		device_destroy(sysfs_class, MKDEV(major_number, 0));
 		class_destroy(sysfs_class);
 		unregister_chrdev(major_number, "Sysfs_Device");
@@ -129,7 +129,7 @@ static void __exit my_module_exit_function(void) {
 	}
 
 	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_sysfs_att_3.attr);
-	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
+	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_rules.attr);
 	device_destroy(sysfs_class, MKDEV(major_number, 0));
 	class_destroy(sysfs_class);
 	unregister_chrdev(major_number, "Sysfs_Device");
