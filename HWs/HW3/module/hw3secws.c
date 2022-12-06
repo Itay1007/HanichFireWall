@@ -120,7 +120,7 @@ int create_sysfs_devices() {
 
 // init function that is called when the module is loaded to the kernel
 static int __init my_module_init_function(void) {
-	if(create_netowrk_hook() != 0) {
+	if(create_network_hook() != 0) {
 		return -1;
 	}
 
