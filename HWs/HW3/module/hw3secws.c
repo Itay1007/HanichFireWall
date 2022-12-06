@@ -2,7 +2,7 @@
 
 static struct nf_hook_ops *nf_net_forward_hook = NULL;
 
-static int fw_log_driver_major_number; 
+// static int fw_log_driver_major_number; 
 
 static int major_number;
 static struct class* sysfs_class = NULL;
@@ -142,11 +142,11 @@ int create_sysfs_devices() {
 }
 
 int create_device() {
-	fw_log_driver_major_number = register_chrdev(0, "fw_log", &fw_log_fops);
-	if(fw_log_driver_major_number < 0) {
-		printk(KERN_ALERT "Registering char device failed iwth %d\n", fw_log_driver_major_number);
-		return -1;
-	}
+	// fw_log_driver_major_number = register_chrdev(0, "fw_log", &fw_log_fops);
+	// if(fw_log_driver_major_number < 0) {
+	// 	printk(KERN_ALERT "Registering char device failed iwth %d\n", fw_log_driver_major_number);
+	// 	return -1;
+	// }
 
 	return 0;
 }
