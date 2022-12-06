@@ -148,8 +148,6 @@ int create_device() {
 		return -1;
 	}
 
-	mknod("fw_log", 0777, fw_log_driver_major_number, 0);
-
 	return 0;
 }
 
