@@ -61,7 +61,7 @@ ssize_t modify_log(struct device *dev, struct device_attribute *attr, const char
 
 
 static DEVICE_ATTR(rules, S_IWUSR | S_IRUGO, display_rules, modify_rules);
-static DEVICE_ATTR(reset, S_IWUSR | S_IRUGO, modify_log);
+static DEVICE_ATTR(reset, S_IWUSR | S_IRUGO, display_rules, modify_log);
 
 
 // init function that is called when the module is loaded to the kernel
