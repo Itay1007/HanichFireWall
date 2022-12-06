@@ -59,7 +59,7 @@ static DEVICE_ATTR(reset, S_IWUSR | S_IRUGO, display_reset_log_flag, modify_rese
 static struct file_operations fw_log_fops = {
 	.read = fw_log_read,
 	.open = fw_log_open
-}
+};
 
 int fw_log_open(struct inode *inode, struct file *file) {
 	printk(KERN_INFO "open the fw log\n");
