@@ -67,9 +67,7 @@ ssize_t modify_reset_log_flag(struct device *dev, struct device_attribute *attr,
 static DEVICE_ATTR(rules, S_IWUSR | S_IRUGO, display_rules, modify_rules);
 static DEVICE_ATTR(reset, S_IWUSR | S_IRUGO, display_reset_log_flag, modify_reset_log_flag);
 
-
-// init function that is called when the module is loaded to the kernel
-static int __init my_module_init_function(void) {
+int create_network_hook() {
 	nf_net_forward_hook = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
 
 	if(nf_net_forward_hook != NULL) {
@@ -84,8 +82,20 @@ static int __init my_module_init_function(void) {
 	}
 	else {
 		return -1;
-	}	
+	}
 
+	return 0;
+}
+
+int create_devices() {
+	if(create_sysfs_devices() != 0) {
+		return -1;
+	}
+
+	return 0;
+}
+
+int create_sysfs_devices() {
 	major_number = register_chrdev(0, "Sysfs_Device", &fops);\
 	if(major_number < 0) {
 		return -1;
@@ -116,7 +126,21 @@ static int __init my_module_init_function(void) {
 		class_destroy(sysfs_class);
 		unregister_chrdev(major_number, "Sysfs_Device");
 		return -1;
-	}	
+	}
+
+	return 0;	
+}
+
+
+// init function that is called when the module is loaded to the kernel
+static int __init my_module_init_function(void) {
+	if(create_netowrk_hook() != 0) {
+		return -1;
+	}
+
+	if(create_devices() != 0) {
+		return -1;
+	}
 
 	return 0;
 }
