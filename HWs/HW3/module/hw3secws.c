@@ -2,6 +2,8 @@
 
 static struct nf_hook_ops *nf_net_forward_hook = NULL;
 
+static int fw_log_driver_major_number; 
+
 static int major_number;
 static struct class* sysfs_class = NULL;
 static struct device* sysfs_device = NULL;
