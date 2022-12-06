@@ -65,7 +65,7 @@ ssize_t modify_reset_log_flag(struct device *dev, struct device_attribute *attr,
 
 
 static DEVICE_ATTR(rules, S_IWUSR | S_IRUGO, display_rules, modify_rules);
-static DEVICE_ATTR(reset, S_IWUSR | S_IRUGO, display_reset_log_flag, modify_log);
+static DEVICE_ATTR(reset, S_IWUSR | S_IRUGO, display_reset_log_flag, modify_reset_log_flag);
 
 
 // init function that is called when the module is loaded to the kernel
