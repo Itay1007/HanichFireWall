@@ -61,12 +61,12 @@ static struct file_operations fw_log_fops = {
 	.open = fw_log_open
 }
 
-static int fw_log_open(struct inode *inode, struct file *file) {
+int fw_log_open(struct inode *inode, struct file *file) {
 	printk(KERN_INFO "open the fw log\n");
 	return 0;
 }
 
-static ssize_t fw_log_read(struct file *filp, char *buffer, size_t length, loff_t *offset) {
+ssize_t fw_log_read(struct file *filp, char *buffer, size_t length, loff_t *offset) {
 	printk(KERN_INFO "read the fw log\n");
 	int bytes_read = 0;
 	return bytes_read;
@@ -147,6 +147,8 @@ int create_device() {
 		printk(KERN_ALERT "Registering char device failed iwth %d\n", fw_log_driver_major_number);
 		return -1;
 	}
+
+	mknod("fw_log", 0777, fw_log_driver_major_number, 0);
 
 	return 0;
 }
