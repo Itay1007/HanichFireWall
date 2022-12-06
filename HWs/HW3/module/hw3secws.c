@@ -1,18 +1,4 @@
-#include <linux/module.h>
-#include <linux/kernel.h>
-#include <linux/netfilter.h>
-#include <linux/netfilter_ipv4.h>
-#include <linux/fs.h>
-#include <linux/device.h>
-
-#define NF_DROP 0
-#define NF_ACCEPT 1
-#define ACCEPT_PACKET_MESSAGE "*** Packet Accepted ***"
-#define DROP_PACKET_MESSAGE "*** Packet Dropped ***"
-
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Itay Barok");
-
+#include "hw3secws.h"
 
 static struct nf_hook_ops *nf_net_forward_hook = NULL;
 
