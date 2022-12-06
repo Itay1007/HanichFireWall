@@ -37,12 +37,12 @@ static unsigned int netfilter_forward_hook(void *priv, struct sk_buff *skb, cons
 }
 
 // sysfs show function, the function that read from the attribute to the user
-ssize_t display(struct device *dev, struct device_attribute *attr, char *buf) {
+ssize_t display_rules(struct device *dev, struct device_attribute *attr, char *buf) {
 	return scnprintf(buf, PAGE_SIZE, "%u\n", accepted_packets_counter);
 }
 
 // sysfs store function, the function that writes to the attribute from the user
-ssize_t modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
+ssize_t modify_rules(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
 	int temp;
 	if(sscanf(buf,"%u", &temp) == 1) {
 		accepted_packets_counter = temp;
@@ -50,13 +50,8 @@ ssize_t modify(struct device *dev, struct device_attribute *attr, const char *bu
 	return count;
 }
 
-// sysfs show function, the function that read from the attribute to the user
-ssize_t display_2(struct device *dev, struct device_attribute *attr, char *buf) {
-	return scnprintf(buf, PAGE_SIZE, "%u\n", dropped_packets_counter);
-}
-
 // sysfs store function, the function that writes to the attribute from the user
-ssize_t modify_2(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
+ssize_t modify_log(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
 	int temp;
 	if(sscanf(buf,"%u", &temp) == 1) {
 		dropped_packets_counter = temp;
@@ -65,8 +60,8 @@ ssize_t modify_2(struct device *dev, struct device_attribute *attr, const char *
 }
 
 
-static DEVICE_ATTR(rules, S_IWUSR | S_IRUGO, display, modify);
-static DEVICE_ATTR(reset, S_IWUSR | S_IRUGO, display_2, modify_2);
+static DEVICE_ATTR(rules, S_IWUSR | S_IRUGO, display_rules, modify_rules);
+static DEVICE_ATTR(reset_log, S_IWUSR | S_IRUGO, modify_log);
 
 
 // init function that is called when the module is loaded to the kernel
@@ -112,7 +107,7 @@ static int __init my_module_init_function(void) {
 		return -1;
 	}
 
-	if(device_create_file(sysfs_device, (const struct device_attribute *)&dev_attr_reset.attr)){
+	if(device_create_file(sysfs_device, (const struct device_attribute *)&dev_attr_reset_log.attr)){
 		device_destroy(sysfs_class, MKDEV(major_number, 0));
 		class_destroy(sysfs_class);
 		unregister_chrdev(major_number, "Sysfs_Device");
@@ -129,7 +124,7 @@ static void __exit my_module_exit_function(void) {
 		kfree(nf_net_forward_hook);
 	}
 
-	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_reset.attr);
+	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_reset_log.attr);
 	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_rules.attr);
 	device_destroy(sysfs_class, MKDEV(major_number, 0));
 	class_destroy(sysfs_class);
