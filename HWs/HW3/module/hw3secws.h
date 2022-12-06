@@ -21,3 +21,6 @@ ssize_t modify_reset_log_flag(struct device *dev, struct device_attribute *attr,
 int create_network_hook(void);
 int create_devices(void);
 int create_sysfs_devices(void);
+int create_device(void);
+static int __init my_module_init_function(void);
+static void __exit my_module_exit_function(void);

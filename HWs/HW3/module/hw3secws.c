@@ -53,6 +53,24 @@ ssize_t modify_reset_log_flag(struct device *dev, struct device_attribute *attr,
 static DEVICE_ATTR(rules, S_IWUSR | S_IRUGO, display_rules, modify_rules);
 static DEVICE_ATTR(reset, S_IWUSR | S_IRUGO, display_reset_log_flag, modify_reset_log_flag);
 
+
+static struct file_operations fw_log_fops = {
+	.read = fw_log_read,
+	.open = fw_log_open
+}
+
+static int fw_log_open(struct inode *inode, struct file *file) {
+	printk(KERN_INFO "open the fw log\n");
+	return 0;
+}
+
+static ssize_t fw_log_read(struct file *filp, char *buffer, size_t length, loff_t *offset) {
+	printk(KERN_INFO "read the fw log\n");
+	int bytes_read = 0;
+	return bytes_read;
+}
+
+
 int create_network_hook() {
 	nf_net_forward_hook = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
 
@@ -75,6 +93,10 @@ int create_network_hook() {
 
 int create_devices() {
 	if(create_sysfs_devices() != 0) {
+		return -1;
+	}
+
+	if(create_device() != 0) {
 		return -1;
 	}
 
@@ -115,6 +137,16 @@ int create_sysfs_devices() {
 	}
 
 	return 0;	
+}
+
+int create_device() {
+	fw_log_driver_major_number = register_chrdev(0, "fw_log", &fw_log_fops);
+	if(fw_log_driver_major_number < 0) {
+		printk(KERN_ALERT "Registering char device failed iwth %d\n", fw_log_driver_major_number);
+		return -1;
+	}
+
+	return 0;
 }
 
 
