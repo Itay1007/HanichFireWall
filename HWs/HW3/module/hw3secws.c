@@ -61,7 +61,7 @@ ssize_t modify_log(struct device *dev, struct device_attribute *attr, const char
 
 
 static DEVICE_ATTR(rules, S_IWUSR | S_IRUGO, display_rules, modify_rules);
-static DEVICE_ATTR(reset_log, S_IWUSR | S_IRUGO, modify_log);
+static DEVICE_ATTR(reset, S_IWUSR | S_IRUGO, modify_log);
 
 
 // init function that is called when the module is loaded to the kernel
@@ -107,7 +107,7 @@ static int __init my_module_init_function(void) {
 		return -1;
 	}
 
-	if(device_create_file(sysfs_device, (const struct device_attribute *)&dev_attr_reset_log.attr)){
+	if(device_create_file(sysfs_device, (const struct device_attribute *)&dev_attr_reset.attr)){
 		device_destroy(sysfs_class, MKDEV(major_number, 0));
 		class_destroy(sysfs_class);
 		unregister_chrdev(major_number, "Sysfs_Device");
@@ -124,7 +124,7 @@ static void __exit my_module_exit_function(void) {
 		kfree(nf_net_forward_hook);
 	}
 
-	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_reset_log.attr);
+	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_reset.attr);
 	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_rules.attr);
 	device_destroy(sysfs_class, MKDEV(major_number, 0));
 	class_destroy(sysfs_class);
