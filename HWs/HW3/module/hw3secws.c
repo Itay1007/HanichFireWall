@@ -142,7 +142,7 @@ int create_sysfs_devices() {
 }
 
 int create_device() {
-	fw_log_driver_major_number = register_chrdev(10, "fw_log", &fw_log_fops);
+	fw_log_driver_major_number = register_chrdev(122, "fw_log", &fw_log_fops);
 	if(fw_log_driver_major_number < 0) {
 		printk(KERN_ALERT "Registering char device failed iwth %d\n", fw_log_driver_major_number);
 		return -1;
