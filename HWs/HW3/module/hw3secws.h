@@ -5,13 +5,6 @@
 #include <linux/fs.h>
 #include <linux/device.h>
 
-#define NF_DROP 0
-#define NF_ACCEPT 1
-
-#define PACKET_IN_NETFILTER_HOOK "***Packet in netfilter hook***"
-#define PACKET_ACCEPT_MESSAGE "***Packet Accept***"
-#define PACKET_DROP_MESSAGE "***Packet Drop***"
-
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Itay Barok");
 

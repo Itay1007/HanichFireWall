@@ -20,6 +20,10 @@ FIREWALL_TABLE_COLMUNS_NUM = 9
 def load_rules(path_to_rules_file):
     rules_file_fw = open(path_to_rules_file, "r")
     rules_lines = rules_file_fw.readlines()
+    if rules_lines > 50:
+        print(f"Invalid rules table size. Max rules number is 50")
+        exit(0)
+
     fw_rules_fd = open("/sys/class/fw/rules/rules", "w")
     for rule_line in rules_lines:
         validate_rules_file_line(rule_line)
@@ -69,7 +73,7 @@ def get_parsed_rule_line(rule_line):
     parsed_rule_line_tokens.append(action_mapping[action])
 
     parsed_rule_line_tokens = list(map(lambda field_value: str(field_value), parsed_rule_line_tokens))
-    return " ".join(parsed_rule_line_tokens)
+    return "-".join(parsed_rule_line_tokens)
 
 def ip_into_be_num(ip):
     packedIP = socket.inet_aton(ip)

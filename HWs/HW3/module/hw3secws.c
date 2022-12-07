@@ -40,10 +40,7 @@ ssize_t display_rules(struct device *dev, struct device_attribute *attr, char *b
 
 // sysfs store function, the function that writes to the attribute from the user
 ssize_t modify_rules(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
-	int temp;
-	if(sscanf(buf,"%u", &temp) == 1) {
-		accepted_packets_counter = temp;
-	}
+	add_static_table_rule(buf, count);
 	return count;
 }
 
