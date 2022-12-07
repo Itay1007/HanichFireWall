@@ -40,6 +40,18 @@ typedef enum {
 #define IN_NET_DEVICE_NAME			"eth1"
 #define OUT_NET_DEVICE_NAME			"eth2"
 
+
+// auxiliary constants, for my convenience
+#define NF_DROP 0
+#define NF_ACCEPT 1
+
+#define PACKET_IN_NETFILTER_HOOK "***Packet in netfilter hook***"
+#define PACKET_ACCEPT_MESSAGE "***Packet Accept***"
+#define PACKET_DROP_MESSAGE "***Packet Drop***"
+
+#define RULE_MATCHES 1
+#define RULE_DOESNOT_MATCHES 0
+
 // auxiliary values, for your convenience
 #define IP_VERSION		(4)
 #define PORT_ANY		(0)

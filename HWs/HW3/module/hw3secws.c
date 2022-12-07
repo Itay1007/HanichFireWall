@@ -19,8 +19,17 @@ static struct file_operations fops = {
 // drop packets that go through the firewall to another host.
 // The firewall drops the packets and log it in kernel ring
 static unsigned int netfilter_forward_hook(void *priv, struct sk_buff *skb, const struct nf_hook_state *state) {
-	printk(KERN_INFO DROP_PACKET_MESSAGE);
-	dropped_packets_counter++;
+	int packet_status;
+	printk(KERN_INFO PACKET_IN_NETFILTER_HOOK);
+	packet_status = check_packet_against_rules_table(priv, skb, state)
+	if(packet_status == NF_ACCEPT) {
+		accepted_packets_counter++;
+		printk(KERN_INFO PACKET_ACCEPT_MESSAGE)
+		return NF_ACCEPT;
+	}
+
+	droped_packets_counter++;
+	printk(KERN_INFO PACKET_DROP_MESSAGE);
 	return NF_DROP;
 }
 
@@ -144,7 +153,7 @@ int create_sysfs_devices() {
 int create_device() {
 	fw_log_driver_major_number = register_chrdev(0, "fw_log", &fw_log_fops);
 	if(fw_log_driver_major_number < 0) {
-		printk(KERN_ALERT "Registering char device failed iwth %d\n", fw_log_driver_major_number);
+		printk(KERN_ALERT "Registering char device failed with %d\n", fw_log_driver_major_number);
 		return -1;
 	}
 

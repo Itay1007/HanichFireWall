@@ -7,8 +7,10 @@
 
 #define NF_DROP 0
 #define NF_ACCEPT 1
-#define ACCEPT_PACKET_MESSAGE "*** Packet Accepted ***"
-#define DROP_PACKET_MESSAGE "*** Packet Dropped ***"
+
+#define PACKET_IN_NETFILTER_HOOK "***Packet in netfilter hook***"
+#define PACKET_ACCEPT_MESSAGE "***Packet Accept***"
+#define PACKET_DROP_MESSAGE "***Packet Drop***"
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Itay Barok");
