@@ -57,11 +57,7 @@ void validate_rules_file_line(char *rule_line) {
             case 1: validate_direction(rule_line_token);
                     break;
             case 2: if (strncmp(rule_line_token, "any", strlen("any"))) {
-                            ip_token = strtok(rule_line_token, "/");
-                            printf("Source IP address: %s\n", ip_token);
-                            validate_ip(ip_token);
-                            ip_token = strtok(NULL, "/");
-                            printf("mask: %s\n", ip_token);
+                            a(rule_line_token);
                             validate_mask(ip_token);
                         }
                     break;
