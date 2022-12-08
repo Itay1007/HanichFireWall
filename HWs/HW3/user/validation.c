@@ -36,8 +36,6 @@ void validate_rules_file_line(char *rule_line) {
     int rule_element_i = 0;
     char *rule_line_token = strtok(rule_line, " ");
     char *ip_token;
-    char *saved_ip;
-    char sep[2] = "/";
 
     while(rule_line_token != NULL) {
         printf("Validation on element %d\n", rule_element_i);
@@ -49,24 +47,12 @@ void validate_rules_file_line(char *rule_line) {
             case 1: validate_direction(rule_line_token);
                     break;
             case 2: if (strncmp(rule_line_token, "any", strlen("any"))) {
-                            saved_ip = rule_line_token;
-                            ip_token = strtok_r(rule_line_token, "/", &rule_line_token);
-                            printf("Source IP address: %s\n", ip_token);
-                            validate_ip(ip_token);
-                            ip_token = strtok_r(NULL, "/", &rule_line_token);
-                            printf("mask: %s\n", ip_token);
-                            validate_mask(ip_token);
-                        }
+                            validate_ip_mask(rule_line_token);
+                    }
                     break;
             case 3: if (strncmp(rule_line_token, "any", strlen("any"))) {
-                            printf("rule line token: %s\n", rule_line_token);
-                            saved_ip = rule_line_token;
-                            ip_token = strtok_r(rule_line_token, sep, &ip_token);
-                            validate_ip(ip_token);
-                            ip_token = strtok_r(NULL, sep, &ip_token);
-                            printf("mask %s\n", ip_token);
-                            validate_mask(ip_token);
-                        }
+                            validate_ip_mask(rule_line_token);
+                    }
                     break;
             case 4: validate_protocol(rule_line_token);
                     break;
@@ -109,6 +95,26 @@ void validate_direction(char *direction) {
 
     printf("Direction field in rule table is from ['in', 'out', 'any']. Invalid given direction %s", direction);
     exit(0);
+}
+
+void validate_ip_mask(char *rule_line_token) {
+    int i;
+    int j = 0;
+    char sep = '/';
+    char ip[20];
+    char mask[2];
+
+    for(i = 0, j = 0; rule_line_token[i] != sep; i++, j++) {
+        ip[j] = rule_line_token[i];
+    }
+
+    for (i++, j = 0;rule_line_token[i]; i++, j++)
+    {
+        mask[j] = rule_line_token[i]; 
+    }
+
+    validate_ip(ip);
+    validate_mask(mask);
 }
 
 void validate_ip(char *ip) {
