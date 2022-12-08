@@ -1,9 +1,6 @@
 #ifndef _HW3SECWS_H_
 #define _HW3SECWS_H_
 
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Itay Barok");
-
 static unsigned int netfilter_forward_hook(void *priv, struct sk_buff *skb, const struct nf_hook_state *state);
 
 ssize_t display_rules(struct device *dev, struct device_attribute *attr, char *buf);

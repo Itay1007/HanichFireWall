@@ -1,6 +1,9 @@
 #include "hw3secws.h"
 #include "static_rules_table.h"
 
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Itay Barok");
+
 static struct nf_hook_ops *nf_net_forward_hook = NULL;
 
 static int fw_log_driver_major_number; 
