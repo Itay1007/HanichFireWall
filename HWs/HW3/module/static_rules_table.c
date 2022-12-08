@@ -64,7 +64,7 @@ int check_rule_for_match(rule_t *table_entry_ptr, struct sk_buff *skb) {
 		return RULE_DOESNOT_MATCHES;
 	}
 
-	if(table_entry_ptr->protocol != prot_t.PROT_ANY && ip_header->protocol != table_entry_ptr->protocol) {
+	if(table_entry_ptr->protocol != PROT_ANY && ip_header->protocol != table_entry_ptr->protocol) {
 		return RULE_DOESNOT_MATCHES;
 	}
 
@@ -76,7 +76,7 @@ int check_rule_for_match(rule_t *table_entry_ptr, struct sk_buff *skb) {
 		return RULE_DOESNOT_MATCHES;
 	}
 
-	if(table_entry_ptr->ack != ack_t.ACK_ANY && tcp_header->ack != table_entry_ptr->ack) {
+	if(table_entry_ptr->ack != ACK_ANY && tcp_header->ack != table_entry_ptr->ack) {
 		return RULE_DOESNOT_MATCHES;
 	}
 
