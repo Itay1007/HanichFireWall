@@ -32,15 +32,6 @@ void validate_user_input(int argc, char *argv[]) {
     exit(0);
 }
 
-void a(char *rule_line_token) {
-    char sep[2] = "/";
-    char *ip_token = strtok(rule_line_token, sep);
-    printf("rule line token: %s\n", rule_line_token);
-    validate_ip(ip_token);
-    ip_token = strtok(NULL, sep);
-    printf("mask %s\n", ip_token);
-}
-
 void validate_rules_file_line(char *rule_line) {
     int rule_element_i = 0;
     char *rule_line_token = strtok(rule_line, " ");
@@ -57,15 +48,19 @@ void validate_rules_file_line(char *rule_line) {
             case 1: validate_direction(rule_line_token);
                     break;
             case 2: if (strncmp(rule_line_token, "any", strlen("any"))) {
-                            a(rule_line_token);
+                            ip_token = strtok_r(rule_line_token, "/");
+                            printf("Source IP address: %s\n", ip_token);
+                            validate_ip(ip_token);
+                            ip_token = strtok_r(NULL, "/");
+                            printf("mask: %s\n", ip_token);
                             validate_mask(ip_token);
                         }
                     break;
             case 3: if (strncmp(rule_line_token, "any", strlen("any"))) {
                             printf("rule line token: %s\n", rule_line_token);
-                            ip_token = strtok(rule_line_token, sep);
+                            ip_token = strtok_r(rule_line_token, sep);
                             validate_ip(ip_token);
-                            ip_token = strtok(NULL, sep);
+                            ip_token = strtok_r(NULL, sep);
                             printf("mask %s\n", ip_token);
                             validate_mask(ip_token);
                         }
