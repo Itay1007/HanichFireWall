@@ -38,6 +38,9 @@ void validate_rules_file_line(char *rule_line) {
     char *ip_token;
 
     while(rule_line_token != NULL) {
+        printf("Validation on element %d\n");
+        printf("Element of %s\n", rule_line_token);
+
         switch(rule_element_i) {
             case 0: validate_rule_name(rule_line_token);
                     break;
