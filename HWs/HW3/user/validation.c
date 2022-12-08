@@ -36,6 +36,7 @@ void validate_rules_file_line(char *rule_line) {
     int rule_element_i = 0;
     char *rule_line_token = strtok(rule_line, " ");
     char *ip_token;
+    char sep[2] = "/";
 
     while(rule_line_token != NULL) {
         printf("Validation on element %d\n", rule_element_i);
@@ -57,9 +58,10 @@ void validate_rules_file_line(char *rule_line) {
                     break;
             case 3: if (strncmp(rule_line_token, "any", strlen("any"))) {
                             printf("rule line token: %s\n", rule_line_token);
-                            ip_token = strtok(rule_line_token, "/");
+                            ip_token = strtok(rule_line_token, sep);
                             validate_ip(ip_token);
-                            ip_token = strtok(NULL, "/");
+                            ip_token = strtok(NULL, sep);
+                            printf("mask %s\n", ip_token);
                             validate_mask(ip_token);
                         }
                     break;
