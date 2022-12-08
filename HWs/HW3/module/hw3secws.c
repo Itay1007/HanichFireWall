@@ -79,8 +79,7 @@ int fw_log_open(struct inode *inode, struct file *file) {
 
 ssize_t fw_log_read(struct file *filp, char *buffer, size_t length, loff_t *offset) {
 	printk(KERN_INFO "read the fw log\n");
-	int bytes_read = 0;
-	return bytes_read;
+	return 0;
 }
 
 
