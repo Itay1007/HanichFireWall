@@ -9,10 +9,6 @@ void prepare_static_rules_table(void) {
 }
 
 void add_static_table_rule(const char *buf) {
-	int i, j;
-	char sep = '-';
-	char *rule;
-
 	if(number_of_rules_in_table >= 50) {
 		printk(KERN_INFO "Tried insert another rule to a full static rules table\n");
 		return;
