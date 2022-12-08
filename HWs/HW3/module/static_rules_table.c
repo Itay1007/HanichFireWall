@@ -65,7 +65,7 @@ int check_rule_for_match(rule_t *table_entry_ptr, struct sk_buff *skb) {
 
 	// check if saddr is in the netowrk src_ip/src_prefix_size
 	if(table_entry_ptr->src_ip != 0 &&
-	  (ip_header->saddr & table_entry_ptr->src_prefix_mask) != (table_entry_ptr->src_ip & table_entry_ptr->src_prefix_mask) {
+	  (ip_header->saddr & table_entry_ptr->src_prefix_mask) != (table_entry_ptr->src_ip & table_entry_ptr->src_prefix_mask)) {
 		return RULE_DOESNOT_MATCHES;
 	}
 
