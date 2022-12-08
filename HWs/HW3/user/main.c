@@ -23,12 +23,12 @@
 // to /sys/class/fw/rules/rules
 void load_rules(char *path_to_rules_file)
 {
-    int firewall_new_rules_file_fp;
+    FILE *firewall_new_rules_file_fp;
     int firewall_update_rules_fp;
     char rule_chars_line[500] = {0};
     rule_t rule;
     //TODO: add validation of the lines of the file before using it
-    firewall_new_rules_file_fp = open(path_to_rules_file, "r");
+    firewall_new_rules_file_fp = fopen(path_to_rules_file, "r");
 
     while(fgets(rule_chars_line, 500, firewall_new_rules_file_fp)) {
         printf("%s\n", rule_chars_line);
@@ -36,7 +36,7 @@ void load_rules(char *path_to_rules_file)
         parse_line_to_rule(&rule, rule_chars_line);
         write(firewall_update_rules_fp, &rule, sizeof(rule));
     }
-    close(firewall_new_rules_file_fp);
+    fclose(firewall_new_rules_file_fp);
     close(firewall_update_rules_fp);
 }
 
@@ -82,7 +82,7 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
                     rule_ptr->dst_ip = be_ip_number;
                     mask_size = atoi(strtok(NULL, "/"));
                     rule_ptr->dst_prefix_mask = make_network_mask_size_ip_be_number(mask_size);
-                    rule_ptr->dst_prefix_size = atoi(mask_size);
+                    rule_ptr->dst_prefix_size = mask_size;
                     break;
             case 4: if(!strncmp(rule_line_token, "TCP", strlen("TCP"))) {
                         rule_ptr->protocol = PROT_TCP;
