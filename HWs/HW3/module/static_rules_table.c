@@ -1,8 +1,4 @@
-#include <linux/kernel.h>
-#include <linux/module.h>
-#include <linux/netfilter.h>
-#include <linux/netfilter_ipv4.h>
-#include "fw.h"
+#include "static_rules_table.h"
 
 rule_t static_rules_table[MAX_RULES];
 unsigned int number_of_rules_in_table = 0;
