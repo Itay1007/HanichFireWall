@@ -32,6 +32,15 @@ void validate_user_input(int argc, char *argv[]) {
     exit(0);
 }
 
+void a(char *rule_line_token) {
+    char sep[2] = "/";
+    char *ip_token = strtok(rule_line_token, sep);
+    printf("rule line token: %s\n", rule_line_token);
+    validate_ip(ip_token);
+    ip_token = strtok(NULL, sep);
+    printf("mask %s\n", ip_token);
+}
+
 void validate_rules_file_line(char *rule_line) {
     int rule_element_i = 0;
     char *rule_line_token = strtok(rule_line, " ");
