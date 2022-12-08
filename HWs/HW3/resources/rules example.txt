@@ -1,0 +1,52 @@
+User File for loading Rule Table with data:
+
+Rule Name     Direction       Source IP and Mask     Dest IP and Mask    Protocol     Source Port      Dest Port       Ack Bit      Action
+loopback      any             127.0.0.1/8            127.0.0.1/8         any          any              any             any          accept
+GW_attack     any             any                    10.0.2.15/32        any          any              any             any          drop
+spoof1        in              10.0.1.1/24            any                 any          any              any             any          drop
+spoof2        out             10.0.2.2/24            any                 any          any              any             any          drop
+telnet1       out             10.0.1.1/24            any                 TCP          >1023            23              any          accept
+telnet2       in              any                    10.0.1.1/24         TCP          23               >1023           yes          accept
+default       any             any                    any                 any          any              any             any          drop
+
+// check in the userspace that the names are at most 20 bytes. len(rule_name) <= 20
+// also check that the values of fields that are from finite group are really from int
+// and the format
+
+Parsing in User mode of data for the data send to the kernel
+(line by line with write to the sys/class/fw/rules/rules):
+
+general scheme:
+[rule name up to 20 chars]
+
+[direction: 1 (in), 2 (out), 3 (any)]
+
+[source ip address, big endian number. 0 for any]
+
+[source netowrk mask number of left set bits. If any in ip mask is 0]
+
+[destination ip address, big endian number. 0 for any]
+
+[destination network mask number of left set bit. If any in ip mask is 0]
+
+[protocol as number: 1 (ICMP) | 6 (TCP) | 17 (UDP) | OTHER (255) | any (143)]
+
+[source port: 0 (any) | 0-1022 (specific port) | 1023 (any port > 1023)] 
+
+[destination port: 0 (any) | 0-1022 (specific port) | 1023 (any port > 1023)]
+
+[Ack Bit: 0 (no) | 1 (yes) | 2 (any)]
+
+[Action: drop (0) | accept (1)]
+
+examples:
+User line from file:
+Rule Name     Direction       Source IP and Mask     Dest IP and Mask    Protocol     Source Port      Dest Port       Ack Bit      Action
+loopback      any             127.0.0.1/8            127.0.0.1/8         any          any              any             any          accept
+line postparsing to kernel:
+loopback 3 be32(127.0.0.1) 8 be32(127.0.0.1) 8 143 0 0 3 1
+
+User line from file:
+telnet1       out             be32(10.0.1.1) 24            0  0                 TCP          >1023            23              any          accept
+ilne postparsing to kernel:
+telnet1       2               be32(10.0.1.1) 24            0  0               6          1023            23              2          1
