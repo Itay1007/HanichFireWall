@@ -22,7 +22,7 @@ void validate_user_input(int argc, char *argv[]) {
     }
 
     for(i = 0; i < 4; i++) {
-        printf("in loop to determine the command\n");
+        printf("in loop iteration %d to determine the command\n", i);
         firewall_command = firewall_commands[i];
         if(!strncmp(argv[1], firewall_command, strlen(firewall_command))) {
             return;
