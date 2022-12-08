@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include "main.h"
 #include "validation.h"
 #include "utils.h"
@@ -27,7 +28,6 @@ void load_rules(char *path_to_rules_file)
     char rule_chars_line[500] = {0};
     rule_t rule;
     int firewall_update_rules_fp;
-
     //TODO: add validation of the lines of the file before using it
     firewall_new_rules_file_fp = fopen(path_to_rules_file, "r");
     firewall_update_rules_fp = open(RULES_ATTR_PATH, "w");
