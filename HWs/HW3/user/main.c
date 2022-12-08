@@ -65,21 +65,21 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
                     rule_ptr->direction = direction;
                     break;
             case 2: if (!strncmp(rule_line_token, "any", strlen("any"))) {
-                        strncpy(rule_ptr->src_ip, 0, sizeof(unsigned int));
+                        rule_ptr->src_ip = 0;
                     }
                     ip_token = strtok(rule_line_token, "/");
                     be_ip_number = make_be_ip_number(ip_token);
-                    strncpy(rule_ptr->src_ip, be_ip_number, sizeof(unsigned int));
+                    rule_ptr->src_ip = be_ip_number;
                     mask_token = strtok(NULL, "/");
                     rule_ptr->src_prefix_mask = make_network_mask_size_ip_be_number(mask_token);
                     rule_ptr->src_prefix_size = atoi(mask_token);
                     break;
             case 3: if (!strncmp(rule_line_token, "any", strlen("any"))) {
-                        strncpy(rule_ptr->dst_ip, 0, sizeof(unsigned int));
+                        rule_ptr->dst_ip = 0;
                     }
                     ip_token = strtok(rule_line_token, "/");
                     be_ip_number = make_be_ip_number(ip_token);
-                    strncpy(rule_ptr->dst_ip, be_ip_number, sizeof(unsigned int));
+                    rule_ptr->dst_ip = be_ip_number;
                     mask_token = strtok(NULL, "/");
                     rule_ptr->dst_prefix_mask = make_network_mask_size_ip_be_number(mask_token);
                     rule_ptr->dst_prefix_size = atoi(mask_token);
