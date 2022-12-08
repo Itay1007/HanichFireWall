@@ -1,3 +1,6 @@
+#ifndef _HW3SECWS_H_
+#define _HW3SECWS_H_
+
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Itay Barok");
 
@@ -19,3 +22,5 @@ int create_device(void);
 
 static int __init my_module_init_function(void);
 static void __exit my_module_exit_function(void);
+
+#endif // _HW3SECWS_H_

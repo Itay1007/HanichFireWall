@@ -1,3 +1,6 @@
+#ifndef _HW3SECWS_H_
+#define _HW3SECWS_H_
+
 #include "fw.h"
 
 void prepare_static_rules_table(void);
@@ -7,3 +10,5 @@ int check_packet_against_rules_table(void *priv, struct sk_buff *skb, const stru
 int check_rule_for_match(rule_t *table_entry_ptr, struct sk_buff *skb);
 int is_cristmas_tree_packet(struct sk_buff *skb);
 int is_irrelevant_packet(struct sk_buff *skb);
+
+#endif // _HW3SECWS_H_
