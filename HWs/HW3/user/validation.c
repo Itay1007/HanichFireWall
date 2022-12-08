@@ -15,7 +15,7 @@ void validate_user_input(int argc, char *argv[]) {
     }
 
     if(argc != 2) {
-        printf("Usage { ./main.py [show_rules/show_log/clear_log] or\n./main.py load_rules <path_to_rules_file>\n");
+        printf("Usage:\n./main.py [show_rules/show_log/clear_log] or\n./main.py load_rules <path_to_rules_file>\n");
         exit(0);       
     }
 
