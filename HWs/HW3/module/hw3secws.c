@@ -33,7 +33,7 @@ static unsigned int netfilter_forward_hook(void *priv, struct sk_buff *skb, cons
 		return NF_ACCEPT;
 	}
 
-	droped_packets_counter++;
+	dropped_packets_counter++;
 	printk(KERN_INFO PACKET_DROP_MESSAGE);
 	return NF_DROP;
 }
