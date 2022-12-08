@@ -45,7 +45,7 @@ ssize_t display_rules(struct device *dev, struct device_attribute *attr, char *b
 
 // sysfs store function, the function that writes to the attribute from the user
 ssize_t modify_rules(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
-	add_static_table_rule(buf, count);
+	add_static_table_rule(buf);
 	return count;
 }
 

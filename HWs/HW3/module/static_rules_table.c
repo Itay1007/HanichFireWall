@@ -1,4 +1,3 @@
-#include <string>
 #include "fw.h"
 #include "static_rules_table.h"
 
@@ -9,24 +8,17 @@ void prepare_static_rules_table(void) {
 	printk(KERN_INFO "prepare the firewall static rules table\n");
 }
 
-void add_static_table_rule(const char *buf, size_t count) {
+void add_static_table_rule(const char *buf) {
+	int i, j;
+	char sep = '-';
+	char *rule;
+
 	if(number_of_rules_in_table >= 50) {
 		printk(KERN_INFO "Tried insert another rule to a full static rules table\n");
 		return;
 	}
 
-	strncpy(static_rules_table[number_of_rules_in_table].rule_name = strtok(buf, "-"), 20);
- 	static_rules_table[number_of_rules_in_table].direction = strtok(NULL, "-");
-	static_rules_table[number_of_rules_in_table].src_ip = strtok(NULL, "-");
-	static_rules_table[number_of_rules_in_table].src_prefix_size = strtok(NULL, "-");
-	static_rules_table[number_of_rules_in_table].dst_ip = strtok(NULL, "-");
-	static_rules_table[number_of_rules_in_table].dst_prefix_size = strtok(NULL, "-");
-	static_rules_table[number_of_rules_in_table].src_port = strtok(NULL, "-");
-	static_rules_table[number_of_rules_in_table].dst_port = strtok(NULL, "-");
-	static_rules_table[number_of_rules_in_table].protocol = strtok(NULL, "-");
-	static_rules_table[number_of_rules_in_table].ack = strtok(NULL, "-");
-	static_rules_table[number_of_rules_in_table].action = strtok(NULL, "-");
-
+	copy_from_user(&static_rules_table[number_of_rules_in_table], buf, sizeof(rule_t));
 	number_of_rules_in_table++;
 }
 
@@ -47,8 +39,8 @@ int check_packet_against_rules_table(void *priv, struct sk_buff *skb, const stru
 		return NF_ACCEPT;
 	}
 
-	for(i = 0; i < MAX_RULES; i++) {
-		is_rule_match = check_rule_for_match(&static_rules_table[i], struct sk_buff *skb);
+	for(i = 0; i < number_of_rules_in_table; i++) {
+		is_rule_match = check_rule_for_match(&static_rules_table[i], skb);
 		if(is_rule_match == RULE_MATCHES) {
 			//TODO add this to the log
 			return static_rules_table[i].action;

@@ -2,7 +2,7 @@
 #define _STATIC_RULES_TABLE_H_
 
 void prepare_static_rules_table(void);
-void add_static_table_rule(const char *buf, size_t count);
+void add_static_table_rule(const char *buf);
 void deallocate_static_rules_table(void);
 void delete_static_rule_table(void);
 int check_packet_against_rules_table(void *priv, struct sk_buff *skb, const struct nf_hook_state *state);
