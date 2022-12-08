@@ -39,7 +39,7 @@ void validate_rules_file_line(char *rule_line) {
 
     while(rule_line_token != NULL) {
         printf("Validation on element %d\n", rule_element_i);
-        printf("Element of %s\n", rule_line_token);
+        printf("%s\n", rule_line_token);
 
         switch(rule_element_i) {
             case 0: validate_rule_name(rule_line_token);
@@ -48,8 +48,10 @@ void validate_rules_file_line(char *rule_line) {
                     break;
             case 2: if (strncmp(rule_line_token, "any", strlen("any"))) {
                             ip_token = strtok(rule_line_token, "/");
+                            printf("Source IP address: %s\n", ip_token);
                             validate_ip(ip_token);
                             ip_token = strtok(NULL, "/");
+                            printf("mask: %s\n", ip_token);
                             validate_mask(ip_token);
                         }
                     break;
