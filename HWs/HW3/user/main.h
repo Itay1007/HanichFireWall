@@ -75,4 +75,10 @@ typedef struct {
 	unsigned int   	count;        	// counts this line's hits
 } log_row_t;
 
+void load_rules(char *path_to_rules_file);
+void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line);
+void show_rules(void);
+void show_log(void);
+void clear_log(void);
+
 #endif // _MAIN_H_

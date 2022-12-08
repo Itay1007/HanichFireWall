@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
 
 unsigned int make_be_ip_number(char * ip) {
     unsigned char ip_octets[4];
