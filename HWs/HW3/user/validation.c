@@ -10,6 +10,8 @@ void validate_user_input(int argc, char *argv[]) {
     char *firewall_commands[] = {"show_rules", "show_log", "clear_log"};
     char *firewall_command;
 
+    printf("validate user input\n");
+
     if ((argc == 3) && (!strncmp(argv[1], "load_rules", strlen("load_rules")))) {
         return;
     }
@@ -20,6 +22,7 @@ void validate_user_input(int argc, char *argv[]) {
     }
 
     for(i = 0; i < 4; i++) {
+        printf("in loop to determine the command\n");
         firewall_command = firewall_commands[i];
         if(!strncmp(argv[1], firewall_command, strlen(firewall_command))) {
             return;
