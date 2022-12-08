@@ -35,7 +35,7 @@ void load_rules(char *path_to_rules_file)
         printf("%s\n", rule_chars_line);
         validate_rules_file_line(rule_chars_line);
         parse_line_to_rule(&rule, rule_chars_line);
-        write(firewall_update_rules_fp, rule, sizeof(rule));
+        write(firewall_update_rules_fp, &rule, sizeof(rule));
     }
     close(firewall_new_rules_file_fp);
     close(firewall_update_rules_fp);
