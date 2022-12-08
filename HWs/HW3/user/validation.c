@@ -56,6 +56,7 @@ void validate_rules_file_line(char *rule_line) {
                         }
                     break;
             case 3: if (strncmp(rule_line_token, "any", strlen("any"))) {
+                            printf("rule line token: %s\n", rule_line_token);
                             ip_token = strtok(rule_line_token, "/");
                             validate_ip(ip_token);
                             ip_token = strtok(NULL, "/");
