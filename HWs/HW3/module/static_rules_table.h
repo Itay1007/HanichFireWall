@@ -1,7 +1,7 @@
 #ifndef _STATIC_RULES_TABLE_H_
 #define _STATIC_RULES_TABLE_H_
 
-#include "string.h"
+#include <string.h>
 
 void prepare_static_rules_table(void);
 void add_static_table_rule(const char *buf, size_t count);
