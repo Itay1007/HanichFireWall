@@ -105,7 +105,7 @@ void validate_ip(char *ip) {
     int ip_octets_counter = 0;
     char *ip_octet = strtok(ip, ".");
     while(ip_octet != NULL) {
-        if(((ip_octet_number = atoi(ip_octet)) == 0) || (ip_octet_number < 0) || (255 < ip_octet_number)) {
+        if(strncmp(ip_octet, "0", 1) && (((ip_octet_number = atoi(ip_octet)) == 0) || (ip_octet_number < 0) || (255 < ip_octet_number))) {
             printf("Invalid ip octet %s\n", ip_octet);
             exit(0);    
         }
