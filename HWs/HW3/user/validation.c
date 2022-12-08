@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "validation.h"
 
 #define FIREWALL_TABLE_COLMUNS_NUM 9
 
