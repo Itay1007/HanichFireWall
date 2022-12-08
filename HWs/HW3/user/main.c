@@ -30,7 +30,7 @@ void load_rules(char *path_to_rules_file)
     int firewall_update_rules_fp;
     //TODO: add validation of the lines of the file before using it
     firewall_new_rules_file_fp = fopen(path_to_rules_file, "r");
-    firewall_update_rules_fp = open(RULES_ATTR_PATH, "w");
+    firewall_update_rules_fp = open(RULES_ATTR_PATH, O_WRONLY);
 
     while(fgets(rule_chars_line, 500, firewall_new_rules_file_fp)) {
         printf("%s\n", rule_chars_line);
@@ -141,7 +141,7 @@ void show_rules(void)
     // TODO: fix this to the real log structure from fw.h
     char rule_buffer[100];
 
-    show_fw_rules_fp = open(RULES_ATTR_PATH, "r");
+    show_fw_rules_fp = open(RULES_ATTR_PATH, O_RDONLY);
 
     // TODO: add a loop for reading and printing all the rules
     while (0)
@@ -165,7 +165,7 @@ void show_log(void)
     // TODO: fix this to the real log structure from fw.h
     char log_buffer[100];
 
-    fw_logs_fp = open(FW_LOG_DEVICE, "r");
+    fw_logs_fp = open(FW_LOG_DEVICE, O_RDONLY);
 
     // TODO: add a loop for reading and printing all the logs
     while (0)
@@ -186,12 +186,13 @@ void clear_log(void)
     int fw_logs_clear_fp;
 
     // deallocate the log resources
-    fw_logs_reset_fp = open(RESET_ATTR_PATH, "w");
+    fw_logs_reset_fp = open(RESET_ATTR_PATH, O_WRONLY);
     write(fw_logs_reset_fp, "0", strlen("0"));
     close(fw_logs_reset_fp);
 
     // clear the file from the logs using the write flag
-    fw_logs_clear_fp = open(FW_LOG_DEVICE, "w");
+    fw_logs_clear_fp = open(FW_LOG_DEVICE, O_WRONLY);
+    write(fw_logs_clear_fp, "0", strlen("0"));
     close(fw_logs_clear_fp);
 }
 
