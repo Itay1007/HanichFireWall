@@ -25,10 +25,10 @@ static struct file_operations fops = {
 static unsigned int netfilter_forward_hook(void *priv, struct sk_buff *skb, const struct nf_hook_state *state) {
 	int packet_status;
 	printk(KERN_INFO PACKET_IN_NETFILTER_HOOK);
-	packet_status = check_packet_against_rules_table(priv, skb, state)
+	packet_status = check_packet_against_rules_table(priv, skb, state);
 	if(packet_status == NF_ACCEPT) {
 		accepted_packets_counter++;
-		printk(KERN_INFO PACKET_ACCEPT_MESSAGE)
+		printk(KERN_INFO PACKET_ACCEPT_MESSAGE);
 		return NF_ACCEPT;
 	}
 
