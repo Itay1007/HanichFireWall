@@ -41,6 +41,7 @@ void load_rules(char *path_to_rules_file)
 }
 
 void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
+    int i;
     int rule_element_i = 0;
     direction_t direction;
     char *rule_line_token = strtok(rule_chars_line, " ");
@@ -61,7 +62,7 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
                     else {
                         direction = DIRECTION_ANY;
                     }
-                    strncpy(rule_ptr->direction, direction, sizeof(rule_t));
+                    rule_ptr->direction = direction;
                     break;
             case 2: if (!strncmp(rule_line_token, "any", strlen("any"))) {
                         strncpy(rule_ptr->src_ip, 0, sizeof(unsigned int));
@@ -70,26 +71,52 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
                     be_ip_number = make_be_ip_number(ip_token);
                     strncpy(rule_ptr->src_ip, be_ip_number, sizeof(unsigned int));
                     mask_token = strtok(NULL, "/");
-                    strncpy(rule_ptr->src_prefix_mask, atoi(mask_token), sizeof(unsigned int));
-                    strncpy(rule_ptr->src_prefix_size, atoi(mask_token), sizeof(unsigned char));
-
+                    rule_ptr->src_prefix_mask = make_network_mask_size_ip_be_number(mask_token);
+                    rule_ptr->src_prefix_size = atoi(mask_token);
                     break;
-            case 3: if (strncmp(rule_line_token, "any", strlen("any"))) {
-                            ip_token = strtok(rule_line_token, "/");
-                            validate_ip(ip_token);
-                            ip_token = strtok(NULL, "/");
-                            validate_mask(ip_token);
+            case 3: if (!strncmp(rule_line_token, "any", strlen("any"))) {
+                        strncpy(rule_ptr->dst_ip, 0, sizeof(unsigned int));
+                    }
+                    ip_token = strtok(rule_line_token, "/");
+                    be_ip_number = make_be_ip_number(ip_token);
+                    strncpy(rule_ptr->dst_ip, be_ip_number, sizeof(unsigned int));
+                    mask_token = strtok(NULL, "/");
+                    rule_ptr->dst_prefix_mask = make_network_mask_size_ip_be_number(mask_token);
+                    rule_ptr->dst_prefix_size = atoi(mask_token);
+                    break;
+            case 4: if(!strncmp(rule_line_token, "TCP", strlen("TCP"))) {
+                        rule_ptr->protocol = PROT_TCP;
+                    }
+                    else if(!strncmp(rule_line_token, "UDP", strlen("UDP"))) {
+                        rule_ptr->protocol = PROT_UDP;
+                    }
+                    else if(!strncmp(rule_line_token, "ICMP", strlen("ICMP"))) {
+                        rule_ptr->protocol = PROT_ICMP;
+                    }
+                    else {
+                        rule_ptr->protocol = PROT_ANY;
                     }
                     break;
-            case 4: validate_protocol(rule_line_token);
+            case 5: rule_ptr->src_port = atoi(rule_line_token);
                     break;
-            case 5: validate_port(rule_line_token);
+            case 6: rule_ptr->dst_port = atoi(rule_line_token);
                     break;
-            case 6: validate_port(rule_line_token);
+            case 7: if(!strncmp(rule_line_token, "yes", strlen("yes"))) {
+                        rule_ptr->ack = ACK_YES;
+                    }
+                    else if(!strncmp(rule_line_token, "no", strlen("no"))) {
+                        rule_ptr->ack = ACK_NO;
+                    }
+                    else {
+                        rule_ptr->ack = ACK_ANY;
+                    }
                     break;
-            case 7: validate_ack(rule_line_token);
-                    break;        
-            case 8: validate_action(rule_line_token);
+            case 8: if(!strncmp(rule_line_token, "accept", strlen("accept"))) {
+                        rule_ptr->action = NF_ACCEPT;
+                    }
+                    else {
+                        rule_ptr->action = NF_DROP;
+                    }
                     break;
             default:
                     printf("File contains invalid number of columns in a line. No {FIREWALL_TABLE_COLMUNS_NUM}\n");

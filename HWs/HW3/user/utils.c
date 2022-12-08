@@ -10,13 +10,13 @@ unsigned int make_be_ip_number(char * ip) {
 
     ip_octet = strtok(ip, ".");
     while(ip_octet != NULL) {
-        ip_octets[i] = ip_octet;
+        ip_octets[i] = atoi(ip_octet);
         i++;
         ip_octet = strtok(NULL, ".");
     }
 
     for(i = 0; i < 4; i ++) {
-        be_ip_number += atoi(ip_octets[i]) * pow(256, i); 
+        be_ip_number += ip_octets[i] * pow(256, i); 
     }
     return be_ip_number;
 }
