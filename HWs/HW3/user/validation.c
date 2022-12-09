@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "validation.h"
+#include "utils.h"
 
 #define FIREWALL_TABLE_COLMUNS_NUM 9
 
@@ -97,21 +98,10 @@ void validate_direction(char *direction) {
 }
 
 void validate_ip_mask(char *rule_line_token) {
-    int i;
-    int j = 0;
-    char sep = '/';
     char ip[20];
     char mask[3];
 
-    for(i = 0, j = 0; rule_line_token[i] != sep; i++, j++) {
-        ip[j] = rule_line_token[i];
-    }
-
-    for(i++, j = 0 ; rule_line_token[i] && j < 2; i++, j++)
-    {
-        mask[j] = rule_line_token[i]; 
-    }
-    mask[2] = '\0';
+    fill_ip_mask(&ip, &mask, rule_line_token);
 
     validate_ip(ip);
     validate_mask(mask);
@@ -131,7 +121,7 @@ void validate_ip(char *ip) {
     }
 
     if(ip_octets_counter != 4) {
-        printf("Invalid source ip %s", ip);
+        printf("Invalid source ip %s\n", ip);
         exit(0);
     } 
 }

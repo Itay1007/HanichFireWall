@@ -72,7 +72,8 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
     int rule_element_i = 0;
     direction_t direction;
     char *rule_line_token = strtok(rule_chars_line, " ");
-    char *ip_token;
+    char ip[20];
+    char mask[3];
     unsigned int be_ip_number;
     unsigned char mask_size;
     int j = 0;
@@ -83,7 +84,8 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
                     }
                     rule_ptr->rule_name[j] = '\0';
                     break;
-            case 1: if(!strncmp(rule_line_token, "in", strlen("in"))) {
+            case 1: printf("In case 1 of the set direction\n");
+                    if(!strncmp(rule_line_token, "in", strlen("in"))) {
                         printf("direction in\n");
                         direction = DIRECTION_IN;
                     }
@@ -101,22 +103,22 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
             case 2: if (!strncmp(rule_line_token, "any", strlen("any"))) {
                         rule_ptr->src_ip = 0;
                     }
-                    ip_token = strtok(rule_line_token, "/");
-                    be_ip_number = make_be_ip_number(ip_token);
+                    fill_ip_mask(&ip, &mask, rule_line_token);
+                    be_ip_number = make_be_ip_number(ip);
                     rule_ptr->src_ip = be_ip_number;
-                    mask_size = atoi(strtok(NULL, "/"));
+                    mask_size = atoi(mask);
                     rule_ptr->src_prefix_mask = make_network_mask_size_ip_be_number(mask_size);
                     rule_ptr->src_prefix_size = mask_size;
                     break;
             case 3: if (!strncmp(rule_line_token, "any", strlen("any"))) {
                         rule_ptr->dst_ip = 0;
                     }
-                    ip_token = strtok(rule_line_token, "/");
-                    be_ip_number = make_be_ip_number(ip_token);
+                    fill_ip_mask(&ip, &mask, rule_line_token);
+                    be_ip_number = make_be_ip_number(ip);
                     rule_ptr->dst_ip = be_ip_number;
-                    mask_size = atoi(strtok(NULL, "/"));
+                    mask_size = atoi(mask);
                     rule_ptr->dst_prefix_mask = make_network_mask_size_ip_be_number(mask_size);
-                    rule_ptr->dst_prefix_size = mask_size;
+                    rule_ptr->dst_prefix_size= mask_size;
                     break;
             case 4: if(!strncmp(rule_line_token, "TCP", strlen("TCP"))) {
                         rule_ptr->protocol = PROT_TCP;
