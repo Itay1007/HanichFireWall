@@ -34,9 +34,9 @@ void load_rules(char *path_to_rules_file)
 
     while(fgets(rule_chars_line, 500, firewall_new_rules_file_fp)) {
         printf("Validate Rule Line\n");
-        printf("%s\n", rule_chars_line);
+        printf("%s", rule_chars_line);
         validate_rules_file_line(rule_chars_line);
-        printf("Valid Rule Line\n");
+        printf("Valid Rule Line\n\n");
         parse_line_to_rule(&rule, rule_chars_line);
         printf("Parse rule\n");
         printf("rule name: %s\n", rule.rule_name);
