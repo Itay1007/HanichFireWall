@@ -78,6 +78,7 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
     unsigned char mask_size;
     int j = 0;
     while(rule_line_token != NULL) {
+        printf("Rule Element %d\n", rule_element_i);
         switch(rule_element_i) {
             case 0: for(j = 0; j < strlen(rule_line_token); j++) {
                         rule_ptr->rule_name[j] = rule_line_token[j];
