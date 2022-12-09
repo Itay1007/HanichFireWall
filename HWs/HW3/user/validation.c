@@ -108,7 +108,7 @@ void validate_ip_mask(char *rule_line_token) {
         ip[j] = rule_line_token[i];
     }
 
-    for (i++, j = 0 ; rule_line_token[i] && j < 2; i++, j++)
+    for(i++, j = 0 ; rule_line_token[i] && j < 2; i++, j++)
     {
         printf("mask[%d]=%c(%d)\n", j, rule_line_token[i], rule_line_token[i]);
         mask[j] = rule_line_token[i]; 
@@ -117,7 +117,7 @@ void validate_ip_mask(char *rule_line_token) {
     printf("mask[2]=%c\n", mask[2]);
     mask[2] = '\0';
     printf("mask[2] = '\0';\n");
-    for =(i = 0; mask[i]; i++) {
+    for(i = 0; mask[i]; i++) {
         printf("mask[%d]=%c\n", i, mask[i]);
     }
 
