@@ -9,6 +9,7 @@ void validate_rule_name(char *rule_name);
 void validate_direction(char *direction);
 void validate_ip(char *ip);
 void validate_mask(char *mask);
+void validate_ip_mask(char *rule_line_token);
 void validate_protocol(char *protocol_name);
 void validate_port(char *port);
 void validate_ack(char *ack);
