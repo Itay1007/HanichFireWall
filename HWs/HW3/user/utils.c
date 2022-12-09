@@ -40,7 +40,7 @@ unsigned int make_network_mask_size_ip_be_number(unsigned int network_mask_size)
     return build_be_network_mask_ip_be_number;
 }
 
-void fill_ip_mask(char **ip_ptr, char **mask_prt, char *rule_line_token) {
+void fill_ip_mask(char *ip_ptr[20], char *mask_prt[3], char *rule_line_token) {
     int i;
     int j = 0;
     char sep = '/';
