@@ -73,10 +73,15 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
     direction_t direction;
     char *rule_line_token = strtok(rule_chars_line, " ");
     char ip[20];
+    char **ip_ptr;
     char mask[3];
+    char **mask_ptr;
     unsigned int be_ip_number;
     unsigned char mask_size;
     int j = 0;
+
+    ip_ptr = &ip;
+    mask_ptr = &mask;
     while(rule_line_token != NULL) {
         printf("Rule Element %d\n", rule_element_i);
         switch(rule_element_i) {
@@ -104,7 +109,7 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
             case 2: if (!strncmp(rule_line_token, "any", strlen("any"))) {
                         rule_ptr->src_ip = 0;
                     }
-                    fill_ip_mask(&ip, &mask, rule_line_token);
+                    fill_ip_mask(ip_ptr, mask_ptr, rule_line_token);
                     be_ip_number = make_be_ip_number(ip);
                     rule_ptr->src_ip = be_ip_number;
                     mask_size = atoi(mask);
@@ -114,7 +119,7 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
             case 3: if (!strncmp(rule_line_token, "any", strlen("any"))) {
                         rule_ptr->dst_ip = 0;
                     }
-                    fill_ip_mask(&ip, &mask, rule_line_token);
+                    fill_ip_mask(ip_ptr, mask_ptr, rule_line_token);
                     be_ip_number = make_be_ip_number(ip);
                     rule_ptr->dst_ip = be_ip_number;
                     mask_size = atoi(mask);
