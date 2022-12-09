@@ -108,7 +108,7 @@ void validate_ip_mask(char *rule_line_token) {
         ip[j] = rule_line_token[i];
     }
 
-    for (i++, j = 0 ;rule_line_token[i] ; i++, j++)
+    for (i++, j = 0 ;rule_line_token[i] && j < 2; i++, j++)
     {
         mask[j] = rule_line_token[i]; 
     }
