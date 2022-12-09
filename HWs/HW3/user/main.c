@@ -75,6 +75,7 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
                     }
                     printf("\n");
                     strncpy(rule_ptr->rule_name, rule_line_token, strlen(rule_line_token));
+                    printf("rule name: %s", rule_ptr->rule_name);
                     break;
             case 1: if(!strncmp(rule_line_token, "in", strlen("in"))) {
                         direction = DIRECTION_IN;
