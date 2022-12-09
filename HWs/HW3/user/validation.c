@@ -56,9 +56,13 @@ void validate_rules_file_line(char *rule_line) {
                     break;
             case 4: validate_protocol(rule_line_token);
                     break;
-            case 5: validate_port(rule_line_token);
+            case 5: if (strncmp(rule_line_token, "any", strlen("any"))) {
+                            validate_port(rule_line_token);
+                    }
                     break;
-            case 6: validate_port(rule_line_token);
+            case 6: if (strncmp(rule_line_token, "any", strlen("any"))) {
+                            validate_port(rule_line_token);
+                    }
                     break;
             case 7: validate_ack(rule_line_token);
                     break;        
@@ -110,7 +114,6 @@ void validate_ip_mask(char *rule_line_token) {
 
     for(i++, j = 0 ; rule_line_token[i] && j < 2; i++, j++)
     {
-        printf("mask[%d]=%c(%d)\n", j, rule_line_token[i], rule_line_token[i]);
         mask[j] = rule_line_token[i]; 
     }
     mask[2] = '\0';
@@ -140,8 +143,6 @@ void validate_ip(char *ip) {
 
 void validate_mask(char *mask) {
     int mask_number;
-    printf("validate mask.\n");
-    printf("%s\n", mask);
 
     if(!strncmp(mask, "0", strlen("0"))) {
         return;
