@@ -116,7 +116,7 @@ void validate_ip_mask(char *rule_line_token) {
 
     printf("mask[2]=%c\n", mask[2]);
     mask[2] = '\0';
-    printf("mask[2] = '\0';\n");
+    printf("mask[2] = '\\0';\n");
     for(i = 0; mask[i]; i++) {
         printf("mask[%d]=%c\n", i, mask[i]);
     }
