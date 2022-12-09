@@ -66,10 +66,15 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
     char *ip_token;
     unsigned int be_ip_number;
     unsigned char mask_size;
-
+    int j = 0;
     while(rule_line_token != NULL) {
         switch(rule_element_i) {
-            case 0: strncpy(rule_ptr->rule_name, rule_line_token, strlen(rule_line_token));
+            case 0: printf("%s\n", rule_line_token);
+                    for(j = 0; j < strlen(rule_line_token); j++) {
+                        printf("rule_name[%d]=%c\t", j, rule_chars_line[j]);
+                    }
+                    printf("\n");
+                    strncpy(rule_ptr->rule_name, rule_line_token, strlen(rule_line_token));
                     break;
             case 1: if(!strncmp(rule_line_token, "in", strlen("in"))) {
                         direction = DIRECTION_IN;
