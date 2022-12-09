@@ -153,11 +153,11 @@ void validate_mask(char *mask) {
         return;
     }
 
-    if(((mask_number = atoi(mask)) != 0) && (0 <= mask_number) && (mask_number < 32)) {
+    if(((mask_number = atoi(mask)) != 0) && (0 <= mask_number) && (mask_number <= 32)) {
         return;
     }
 
-    printf("Invalid mask %s. Should be int from [0, 31]", mask);
+    printf("Invalid mask %s. Should be int from [0, 32]", mask);
     exit(0);
 }
 
