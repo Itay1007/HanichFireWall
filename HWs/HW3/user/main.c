@@ -78,21 +78,24 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
     int j = 0;
     while(rule_line_token != NULL) {
         switch(rule_element_i) {
-            case 0: printf("%s\n", rule_line_token);
-                    for(j = 0; j < strlen(rule_line_token); j++) {
+            case 0: for(j = 0; j < strlen(rule_line_token); j++) {
                         rule_ptr->rule_name[j] = rule_line_token[j];
                     }
                     rule_ptr->rule_name[j] = '\0';
                     break;
             case 1: if(!strncmp(rule_line_token, "in", strlen("in"))) {
+                        printf("direction in\n");
                         direction = DIRECTION_IN;
                     }
                     else if(!strncmp(rule_line_token, "out", strlen("out"))) {
+                        printf("direction out\n");
                         direction = DIRECTION_OUT;
                     }
                     else {
+                        printf("direction any\n");
                         direction = DIRECTION_ANY;
                     }
+                    printf("direction=%d\n", direction);
                     rule_ptr->direction = direction;
                     break;
             case 2: if (!strncmp(rule_line_token, "any", strlen("any"))) {
