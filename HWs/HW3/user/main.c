@@ -40,6 +40,9 @@ void load_rules(char *path_to_rules_file)
         parse_line_to_rule(&rule, rule_chars_line);
         printf("Parse rule\n");
         printf("rule name: %s\n", rule.rule_name);
+        if(rule.direction == 0x03) {
+            printf("rule.direction=0x03('any')");
+        }
         printf("direction: %d\n", rule.direction);
         printf("source sample network ip address: %d\n", rule.src_ip);
         printf("source mask number in be: %d\n", rule.src_prefix_mask);
@@ -74,7 +77,6 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
                         rule_ptr->rule_name[j] = rule_line_token[j];
                     }
                     rule_ptr->rule_name[j] = '\0';
-                    printf("validation rule name: %s\n", rule_ptr->rule_name);
                     break;
             case 1: if(!strncmp(rule_line_token, "in", strlen("in"))) {
                         direction = DIRECTION_IN;
