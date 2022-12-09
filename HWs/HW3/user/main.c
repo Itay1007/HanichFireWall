@@ -40,8 +40,14 @@ void load_rules(char *path_to_rules_file)
         parse_line_to_rule(&rule, rule_chars_line);
         printf("Parse rule\n");
         printf("rule name: %s\n", rule.rule_name);
-        if(rule.direction == 0x03) {
-            printf("rule.direction=0x03('any')");
+        if(rule.direction == DIRECTION_ANY) {
+            printf("rule.direction=0x03('any')\n");
+        }
+        else if(rule.direction == DIRECTION_IN) {
+            printf("rule.direction=0x03('in')\n");
+        }
+        else if(rule.direction == DIRECTION_OUT) {
+            printf("rule.direction=0x03('out')\n");
         }
         printf("direction: %d\n", rule.direction);
         printf("source sample network ip address: %d\n", rule.src_ip);
