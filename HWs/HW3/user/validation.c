@@ -10,8 +10,6 @@ void validate_user_input(int argc, char *argv[]) {
     char *firewall_commands[3] = {"show_rules", "show_log", "clear_log"};
     char *firewall_command;
 
-    printf("validate user input\n");
-
     if ((argc == 3) && (!strncmp(argv[1], "load_rules", strlen("load_rules")))) {
         return;
     }
@@ -38,9 +36,6 @@ void validate_rules_file_line(char *rule_line) {
     char *ip_token;
 
     while(rule_line_token != NULL) {
-        printf("Validation on element %d\n", rule_element_i);
-        printf("%s\n", rule_line_token);
-
         switch(rule_element_i) {
             case 0: validate_rule_name(rule_line_token);
                     break;
