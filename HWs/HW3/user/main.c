@@ -36,10 +36,8 @@ void load_rules(char *path_to_rules_file)
     while(fgets(rule_chars_line, 500, firewall_new_rules_file_fp)) {
         validate_rules_file_line(rule_chars_line);
         parse_line_to_rule(&rule, rule_chars_line);
-        printf("printed parse of the rule %s\n", rule_chars_line);
         printf("rule name: %s\n", rule.rule_name);
         printf("direction: %d\n", rule.direction);
-        printf("direction: %u\n", rule.direction);
         printf("source sample network ip address: %d\n", rule.src_ip);
         printf("source mask number in be: %d\n", rule.src_prefix_mask);
         printf("dest mask size: %d\n", rule.src_prefix_size);
@@ -144,9 +142,11 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
                     }
                     break;
             case 8: if(!strncmp(rule_line_token, "accept", strlen("accept"))) {
+                        printf("accept line\n");
                         rule_ptr->action = NF_ACCEPT;
                     }
                     else {
+                        printf("drop line\n");
                         rule_ptr->action = NF_DROP;
                     }
                     break;
