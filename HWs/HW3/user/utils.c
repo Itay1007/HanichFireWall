@@ -54,5 +54,5 @@ void fill_ip_mask(char *ip, char *mask, char *rule_line_token) {
     {
         mask[j] = rule_line_token[i]; 
     }
-    mask[2] = '\0';
+    mask[j] = '\0';
 }
