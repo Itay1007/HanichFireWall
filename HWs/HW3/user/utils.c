@@ -42,17 +42,21 @@ unsigned int make_network_mask_size_ip_be_number(unsigned int network_mask_size)
 
 void fill_ip_mask(char *ip, char *mask, char *rule_line_token) {
     int i;
-    int j = 0;
+    int j;
     char sep = '/';
+
+    printf("fill ip/mask\n");
 
     for(i = 0, j = 0; rule_line_token[i] != sep; i++, j++) {
         ip[j] = rule_line_token[i];
     }
     ip[j] = '\0';
 
+    printf("ip %s\n", ip);
     for(i++, j = 0 ; rule_line_token[i] && j < 2; i++, j++)
     {
         mask[j] = rule_line_token[i]; 
     }
     mask[j] = '\0';
+    printf("mask %s\n", mask);
 }
