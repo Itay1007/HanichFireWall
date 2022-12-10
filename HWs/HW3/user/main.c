@@ -114,6 +114,7 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
             case 2: if (!strncmp(rule_line_token, "any", strlen("any"))) {
                         rule_ptr->src_ip = 0;
                     }
+                    printf("fill ip/mask\n");
                     fill_ip_mask(ip, mask, rule_line_token);
                     printf("ip=%s", ip);
                     printf("mask=%s", mask);
