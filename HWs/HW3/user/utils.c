@@ -45,7 +45,7 @@ void fill_ip_mask(char *ip, char *mask, char *rule_line_token) {
     int j;
     char sep = '/';
 
-    printf("fill ip/mask\n");
+    printf("fill ip/mask %s\n", rule_line_token);
 
     for(i = 0, j = 0; rule_line_token[i] != sep; i++, j++) {
         ip[j] = rule_line_token[i];
