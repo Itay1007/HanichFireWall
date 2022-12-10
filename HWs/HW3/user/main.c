@@ -130,6 +130,7 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
                         rule_ptr->dst_ip = 0;
                     }
                     fill_ip_mask(ip, mask, rule_line_token);
+                    printf("be ip number\n");
                     be_ip_number = make_be_ip_number(ip);
                     rule_ptr->dst_ip = be_ip_number;
                     mask_size = atoi(mask);
