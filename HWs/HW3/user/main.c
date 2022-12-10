@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <ctype.h>
 #include "main.h"
 #include "validation.h"
 #include "utils.h"
@@ -49,7 +50,7 @@ void load_rules(char *path_to_rules_file)
         else if(rule.direction == DIRECTION_OUT) {
             printf("rule.direction=0x02('out')\n");
         }
-        printf("rule name: %s", rule.rule_name);
+        printf("rule name: %s\n", rule.rule_name);
         printf("direction: %d\n", rule.direction);
         printf("direction: %u\n", rule.direction);
         printf("source sample network ip address: %d\n", rule.src_ip);
@@ -70,28 +71,32 @@ void load_rules(char *path_to_rules_file)
 }
 
 void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
-    int i;
+    int i = 0, j = 0;
     int rule_element_i = 0;
     direction_t direction;
-    char *rule_line_token = strtok(rule_chars_line, " ");
+    char rule_line_token[20];
     char ip[20];
-    char **ip_ptr;
     char mask[3];
-    char **mask_ptr;
     unsigned int be_ip_number;
     unsigned char mask_size;
-    int j = 0;
 
-    while(rule_line_token != NULL) {
-        printf("Rule Element %d\n", rule_element_i);
+    for(rule_element_i = 0; rule_element_i < 8; rule_element_i) {
+        for(; isspace(rule_chars_line[i]); i++) {
+            i++;
+        }
+
+        for(j = 0; !isspace(rule_chars_line[i]); i++, j++) {
+            rule_line_token[j] = rule_chars_line[i]; 
+        }
+        rule_line_token[j] = '\0';
+
         switch(rule_element_i) {
-            case 0: for(j = 0; j < strlen(rule_line_token); j++) {
-                        rule_ptr->rule_name[j] = rule_line_token[j];
+            case 0: for(j = 0; rule_chars_line[j]; j++) {
+                        rule_ptr->rule_name[j] = rule_chars_line[j];
                     }
                     rule_ptr->rule_name[j] = '\0';
                     break;
-            case 1: printf("In case 1 of the set direction\n");
-                    if(!strncmp(rule_line_token, "in", strlen("in"))) {
+            case 1: if(!strncmp(rule_line_token, "in", strlen("in"))) {
                         printf("direction in\n");
                         direction = DIRECTION_IN;
                     }
@@ -164,8 +169,7 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
                     printf("File contains invalid number of columns in a line. No {FIREWALL_TABLE_COLMUNS_NUM}\n");
                     exit(0);
         }
-        rule_element_i++;
-        rule_line_token = strtok(NULL, " ");
+        rule_element_i++;    
     }
 }
 
