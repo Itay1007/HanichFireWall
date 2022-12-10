@@ -4,20 +4,24 @@
 #include <string.h>
 
 unsigned int make_be_ip_number(char * ip) {
-    unsigned char ip_octets[4];
+    char* ip_octets[4];
     char *ip_octet;
-    int i;
+    int i, j, k;
     unsigned int be_ip_number;
 
-    ip_octet = strtok(ip, ".");
-    while(ip_octet != NULL) {
-        ip_octets[i] = atoi(ip_octet);
-        i++;
-        ip_octet = strtok(NULL, ".");
+    for(i = 0, j = 0, k = 0; ip[i], ip_octets[j]; i++) {
+        if(ip[i] == '.') {
+            j++;
+        }
+        else {
+            ip_octets[j][k] = ip[i];
+            k++;
+        }
     }
 
-    for(i = 0; i < 4; i ++) {
-        be_ip_number += ip_octets[i] * pow(256, i); 
+    be_ip_number = 0;
+    for(j = 0; j < 4; j++) {
+        be_ip_number += atoi(ip_octets[i]) * pow(256, i); 
     }
     return be_ip_number;
 }
