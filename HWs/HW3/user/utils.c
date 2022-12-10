@@ -4,7 +4,7 @@
 #include <string.h>
 
 unsigned int make_be_ip_number(char *ip) {
-    char* ip_octets[4];
+    char ip_octets[4][3];
     char *ip_octet;
     int i, j, k;
     unsigned int be_ip_number;
@@ -12,7 +12,7 @@ unsigned int make_be_ip_number(char *ip) {
 
     for(i = 0, j = 0, k = 0; ip[i]; i++) {
         if(ip[i] == '.') {
-            printf("got point\n");
+            ip_octets[j][k] = '\0';
             j++;
             k = 0;
         }
@@ -24,7 +24,7 @@ unsigned int make_be_ip_number(char *ip) {
 
     be_ip_number = 0;
     for(j = 0; j < 4; j++) {
-        be_ip_number += atoi(ip_octets[i]) * pow(256, i); 
+        be_ip_number += atoi(ip_octets[j]) * pow(256, j); 
     }
     return be_ip_number;
 }
