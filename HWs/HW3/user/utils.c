@@ -3,12 +3,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-unsigned int make_be_ip_number(char * ip) {
+unsigned int make_be_ip_number(char *ip) {
     char* ip_octets[4];
     char *ip_octet;
     int i, j, k;
     unsigned int be_ip_number;
-    printf("make_be_ip_number\n");
+    printf("make_be_ip_number %s\n", ip);
 
     for(i = 0, j = 0, k = 0; ip[i], ip_octets[j]; i++) {
         if(ip[i] == '.') {
