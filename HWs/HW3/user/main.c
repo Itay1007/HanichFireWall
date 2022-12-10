@@ -141,7 +141,8 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
                         rule_ptr->ack = ACK_ANY;
                     }
                     break;
-            case 8: if(!strncmp(rule_line_token, "accept", strlen("accept"))) {
+            case 8: printf("here %s\n", rule_line_token);
+                    if(!strncmp(rule_line_token, "accept", strlen("accept"))) {
                         printf("accept line\n");
                         rule_ptr->action = NF_ACCEPT;
                     }
