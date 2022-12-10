@@ -80,12 +80,14 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
     unsigned int be_ip_number;
     unsigned char mask_size;
 
-    for(rule_element_i = 0; rule_element_i < 8; rule_element_i) {
+    for(rule_element_i = 0; rule_element_i < 9; rule_element_i) {
         for(; isspace(rule_chars_line[i]); i++) {
+            printf("space in char index: %d\n", i);
             i++;
         }
 
         for(j = 0; !isspace(rule_chars_line[i]); i++, j++) {
+            printf("non space in char index: %d: %c\n", i);
             rule_line_token[j] = rule_chars_line[i]; 
         }
         rule_line_token[j] = '\0';
