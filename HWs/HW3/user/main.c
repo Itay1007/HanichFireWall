@@ -129,6 +129,7 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
             case 3: if (!strncmp(rule_line_token, "any", strlen("any"))) {
                         rule_ptr->dst_ip = 0;
                     }
+                    printf("be ip number\n");
                     fill_ip_mask(ip, mask, rule_line_token);
                     printf("be ip number\n");
                     be_ip_number = make_be_ip_number(ip);
