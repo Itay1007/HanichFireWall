@@ -87,7 +87,7 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
         }
 
         for(j = 0; !isspace(rule_chars_line[i]); i++, j++) {
-            printf("non space in char index: %d: %c\n", i);
+            printf("non space in char index: %d: %c\n", i, rule_chars_line[i]);
             rule_line_token[j] = rule_chars_line[i]; 
         }
         rule_line_token[j] = '\0';
