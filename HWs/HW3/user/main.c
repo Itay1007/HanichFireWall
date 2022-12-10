@@ -34,22 +34,9 @@ void load_rules(char *path_to_rules_file)
     firewall_update_rules_fp = open(RULES_ATTR_PATH, O_WRONLY);
 
     while(fgets(rule_chars_line, 500, firewall_new_rules_file_fp)) {
-        printf("Validate Rule Line\n");
-        printf("%s", rule_chars_line);
         validate_rules_file_line(rule_chars_line);
-        printf("Valid Rule Line\n\n");
         parse_line_to_rule(&rule, rule_chars_line);
-        printf("Parse rule\n");
-        printf("rule name: %s\n", rule.rule_name);
-        if(rule.direction == DIRECTION_ANY) {
-            printf("rule.direction=0x03('any')\n");
-        }
-        else if(rule.direction == DIRECTION_IN) {
-            printf("rule.direction=0x01('in')\n");
-        }
-        else if(rule.direction == DIRECTION_OUT) {
-            printf("rule.direction=0x02('out')\n");
-        }
+        printf("printed parse of the rule %s\n", rule_chars_line);
         printf("rule name: %s\n", rule.rule_name);
         printf("direction: %d\n", rule.direction);
         printf("direction: %u\n", rule.direction);
