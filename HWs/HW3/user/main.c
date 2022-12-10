@@ -67,7 +67,6 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
     for(rule_element_i = 0; rule_element_i < 9; rule_element_i) {
         for(; rule_chars_line[i] == ' ' || rule_chars_line[i] == '\0' || rule_chars_line[i] == '\n'; i++) {
             printf("space in char index: %d\n", i);
-            i++;
         }
 
         for(j = 0; rule_chars_line[i] != ' ' && rule_chars_line[i] != '\0' && rule_chars_line[i] != '\n'; i++, j++) {
