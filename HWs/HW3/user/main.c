@@ -44,10 +44,10 @@ void load_rules(char *path_to_rules_file)
             printf("rule.direction=0x03('any')\n");
         }
         else if(rule.direction == DIRECTION_IN) {
-            printf("rule.direction=0x03('in')\n");
+            printf("rule.direction=0x01('in')\n");
         }
         else if(rule.direction == DIRECTION_OUT) {
-            printf("rule.direction=0x03('out')\n");
+            printf("rule.direction=0x02('out')\n");
         }
         printf("direction: %d\n", rule.direction);
         printf("source sample network ip address: %d\n", rule.src_ip);
@@ -80,8 +80,6 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
     unsigned char mask_size;
     int j = 0;
 
-    ip_ptr = &ip;
-    mask_ptr = &mask;
     while(rule_line_token != NULL) {
         printf("Rule Element %d\n", rule_element_i);
         switch(rule_element_i) {
@@ -109,7 +107,7 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
             case 2: if (!strncmp(rule_line_token, "any", strlen("any"))) {
                         rule_ptr->src_ip = 0;
                     }
-                    fill_ip_mask(ip_ptr, mask_ptr, rule_line_token);
+                    fill_ip_mask(ip, mask, rule_line_token);
                     be_ip_number = make_be_ip_number(ip);
                     rule_ptr->src_ip = be_ip_number;
                     mask_size = atoi(mask);
@@ -119,7 +117,7 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
             case 3: if (!strncmp(rule_line_token, "any", strlen("any"))) {
                         rule_ptr->dst_ip = 0;
                     }
-                    fill_ip_mask(ip_ptr, mask_ptr, rule_line_token);
+                    fill_ip_mask(ip, mask, rule_line_token);
                     be_ip_number = make_be_ip_number(ip);
                     rule_ptr->dst_ip = be_ip_number;
                     mask_size = atoi(mask);

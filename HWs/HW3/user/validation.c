@@ -99,13 +99,9 @@ void validate_direction(char *direction) {
 
 void validate_ip_mask(char *rule_line_token) {
     char ip[20];
-    char **ip_ptr;
     char mask[3];
-    char **mask_ptr;
     
-    ip_ptr = &ip;
-    mask_ptr = &mask;
-    fill_ip_mask(ip_ptr, mask_ptr, rule_line_token);
+    fill_ip_mask(ip, mask, rule_line_token);
 
     validate_ip(ip);
     validate_mask(mask);
@@ -127,7 +123,7 @@ void validate_ip(char *ip) {
     if(ip_octets_counter != 4) {
         printf("Invalid source ip %s\n", ip);
         exit(0);
-    } 
+    }
 }
 
 void validate_mask(char *mask) {
