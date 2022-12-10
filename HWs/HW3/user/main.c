@@ -50,6 +50,7 @@ void load_rules(char *path_to_rules_file)
             printf("rule.direction=0x02('out')\n");
         }
         printf("direction: %d\n", rule.direction);
+        printf("direction: %u\n", rule.direction);
         printf("source sample network ip address: %d\n", rule.src_ip);
         printf("source mask number in be: %d\n", rule.src_prefix_mask);
         printf("dest mask size: %d\n", rule.src_prefix_size);
