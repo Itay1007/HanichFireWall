@@ -10,7 +10,7 @@ unsigned int make_be_ip_number(char *ip) {
     unsigned int be_ip_number;
     printf("make_be_ip_number %s\n", ip);
 
-    for(i = 0, j = 0, k = 0; ip[i], ip_octets[j]; i++) {
+    for(i = 0, j = 0, k = 0; ip[i]; i++) {
         if(ip[i] == '.') {
             printf("got point\n");
             j++;
