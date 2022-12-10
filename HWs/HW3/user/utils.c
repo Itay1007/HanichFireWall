@@ -11,7 +11,9 @@ unsigned int make_be_ip_number(char * ip) {
 
     for(i = 0, j = 0, k = 0; ip[i], ip_octets[j]; i++) {
         if(ip[i] == '.') {
+            printf("got point\n");
             j++;
+            k = 0;
         }
         else {
             ip_octets[j][k] = ip[i];
