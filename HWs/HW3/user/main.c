@@ -49,6 +49,7 @@ void load_rules(char *path_to_rules_file)
         else if(rule.direction == DIRECTION_OUT) {
             printf("rule.direction=0x02('out')\n");
         }
+        printf("rule name: %s", rule.rule_name);
         printf("direction: %d\n", rule.direction);
         printf("direction: %u\n", rule.direction);
         printf("source sample network ip address: %d\n", rule.src_ip);
