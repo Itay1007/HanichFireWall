@@ -35,6 +35,10 @@ void add_static_table_rule(const char __user *user_space_buf) {
 		*((char *)rule_ptr + i) = *((char *)user_space_buf + i);
 	}
 
+	for(i = 0; i < 60; i++) {
+		printk(KERN_INFO "%i-%c-%d\t", i, ((char *)rule_ptr)[i], ((char *)rule_ptr)[i]);
+	}
+
 	print_rule_kernel_mode(rule_ptr);
 	number_of_rules_in_table++;
 }
