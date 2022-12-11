@@ -25,21 +25,16 @@ void add_static_table_rule(const char __user *user_space_buf) {
 	for(i = 0; i < 60; i++) {
 		printk(KERN_INFO "%i-%c-%d\t", i, ((char *)user_space_buf)[i], ((char *)user_space_buf)[i]);
 	}
-	
-	// if(counter = copy_from_user(rule_ptr,(rule_t *) user_space_buf, sizeof(rule_t))) {
-	// 	printk(KERN_INFO "Could not write %d\n", counter);
-	// 	return;
-	// }
 
 	for(i = 0; i < sizeof(rule_t); i++) {
-		*((char *)rule_ptr + i) = *((char *)user_space_buf + i);
+		*((char *)&(static_rules_table[number_of_rules_in_table]) + i) = *((char *)user_space_buf + i);
 	}
 
-	for(i = 0; i < 60; i++) {
-		printk(KERN_INFO "%i-%c-%d\t", i, ((char *)rule_ptr)[i], ((char *)rule_ptr)[i]);
-	}
+	// for(i = 0; i < 60; i++) {
+	// 	printk(KERN_INFO "%i-%c-%d\t", i, ((char *)rule_ptr)[i], ((char *)rule_ptr)[i]);
+	// }
 
-	print_rule_kernel_mode(rule_ptr);
+	print_rule_kernel_mode(static_rules_table[number_of_rules_in_table]);
 	number_of_rules_in_table++;
 }
 
