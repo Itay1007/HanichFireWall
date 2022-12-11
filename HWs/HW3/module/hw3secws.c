@@ -49,7 +49,7 @@ ssize_t modify_rules(struct device *dev, struct device_attribute *attr, const ch
 	int i = 0;
 	rule_t rule;
 	printk(KERN_INFO "write a rule to the fw rules table\n");
-	for(i = 0; buf[i]; i++) {
+	for(i = 0; i < sizeof(rule_t); i++) {
 		printk("buf[%d]=%c\n", i, buf[i]);
 	}
 
