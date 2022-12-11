@@ -22,7 +22,7 @@ void add_static_table_rule(const char __user *user_space_buf) {
 	printk(KERN_INFO "pointer from user space: %p\n", user_space_buf);
 	
 	for(i = 0; i < 60; i++) {
-		printk(KERN_INFO "%i-%c-%d\t", i, ((char *)&rule)[i], ((char *)&rule)[i]);
+		printk(KERN_INFO "%i-%c-%d\t", i, ((char *)&user_space_buf)[i], ((char *)&user_space_buf)[i]);
 	}
 	
 	if(counter = copy_from_user(rule_ptr,(rule_t *) user_space_buf, sizeof(rule_t))) {
