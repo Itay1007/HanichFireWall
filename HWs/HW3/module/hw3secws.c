@@ -48,11 +48,11 @@ ssize_t display_rules(struct device *dev, struct device_attribute *attr, char *b
 ssize_t modify_rules(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
 	rule_t rule;
 	printk(KERN_INFO "write a rule to the fw rules table\n");
+	printk(KERN_INFO "print the rule %s\n", buf);
 	if(copy_from_user(&rule, (rule_t *) buf, sizeof(rule_t))) {
 		printk("Error in copy from user\n");
 		return 0;
 	}
-	printk(KERN_INFO "print the rule %s\n", buf);
 	print_rule_kernel_mode(&rule);
 
 	// add_static_table_rule(buf);
