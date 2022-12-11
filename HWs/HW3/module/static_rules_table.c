@@ -9,7 +9,7 @@ void prepare_static_rules_table(void) {
 }
 
 void add_static_table_rule(const char __user *user_space_buf) {
-	rule_t *rule_ptr = (rule_t *) kmalloc(sizeof(rule_t), GFP_KERNEL);
+	rule_t *rule_ptr;// = (rule_t *) kmalloc(sizeof(rule_t), GFP_KERNEL);
 	int counter;
 	int i = 0;
 
@@ -26,15 +26,16 @@ void add_static_table_rule(const char __user *user_space_buf) {
 		printk(KERN_INFO "%i-%c-%d\t", i, ((char *)user_space_buf)[i], ((char *)user_space_buf)[i]);
 	}
 
+	rule_ptr = &static_rules_table[number_of_rules_in_table];
 	for(i = 0; i < sizeof(rule_t); i++) {
-		*((char *)&(static_rules_table[number_of_rules_in_table]) + i) = *((char *)user_space_buf + i);
+		*((char *)rule_ptr + i) = *((char *)user_space_buf + i);
 	}
 
 	// for(i = 0; i < 60; i++) {
 	// 	printk(KERN_INFO "%i-%c-%d\t", i, ((char *)rule_ptr)[i], ((char *)rule_ptr)[i]);
 	// }
 
-	print_rule_kernel_mode(static_rules_table[number_of_rules_in_table]);
+	print_rule_kernel_mode(rule_ptr);
 	number_of_rules_in_table++;
 }
 
