@@ -20,6 +20,11 @@ void add_static_table_rule(const char __user *user_space_buf) {
 	printk(KERN_INFO "copy from user\n");
 	printk(KERN_INFO "sizeof(rule_t) %d\n", sizeof(rule_t));
 	printk(KERN_INFO "pointer from user space: %p\n", user_space_buf);
+	
+	for(i = 0; i < 60; i++) {
+		printk(KERN_INFO "%i-%c-%d\t", i, ((char *)&rule)[i], ((char *)&rule)[i]);
+	}
+	
 	if(counter = copy_from_user(rule_ptr,(rule_t *) user_space_buf, sizeof(rule_t))) {
 		printk(KERN_INFO "Could not write %d\n", counter);
 		return;
