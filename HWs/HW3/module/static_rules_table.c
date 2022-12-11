@@ -32,9 +32,12 @@ void add_static_table_rule(const char __user *user_space_buf) {
 }
 
 void fill_user_buf(void *user_buffer) {
+	char *char_ptr_user_buffer = (char *) user_buffer;
+	char *char_ptr_rule_table;
 	int i;
+	char_ptr_rule_table = (char *)static_rules_table[0];
 	for(i = 0; i < sizeof(rule_t); i++) {
-		user_buffer[i] = *((char *)static_rules_table[0] + i);
+		char_ptr_user_buffer[i] = char_ptr_rule_table[i];
 	}
 }
 
