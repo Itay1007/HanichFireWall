@@ -50,17 +50,7 @@ ssize_t modify_rules(struct device *dev, struct device_attribute *attr, const ch
 	int res;
 	rule_t rule;
 	printk(KERN_INFO "write a rule to the fw rules table\n");
-	for(i = 0; i < sizeof(rule_t); i++) {
-		printk("buf[%d]=%c=%d\n", i, buf[i], buf[i]);
-	}
-
-	if(res = copy_from_user(&rule, (rule_t *) buf, sizeof(rule_t))) {
-		printk("Error in copy from user. Could not copy %d bytes from user to kernel\n", res);
-		return 0;
-	}
-	print_rule_kernel_mode(&rule);
-
-	// add_static_table_rule(buf);
+	add_static_table_rule(buf);
 	return count;
 }
 

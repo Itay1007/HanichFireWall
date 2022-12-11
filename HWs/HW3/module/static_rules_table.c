@@ -8,8 +8,9 @@ void prepare_static_rules_table(void) {
 	printk(KERN_INFO "prepare the firewall static rules table\n");
 }
 
-void add_static_table_rule(const char *user_space_buf) {
+void add_static_table_rule(const char __user *user_space_buf) {
 	rule_t *rule_ptr = (rule_t *) kmalloc(sizeof(rule_t), GFP_KERNEL);
+	int counter;
 
 	if(number_of_rules_in_table >= 50) {
 		printk(KERN_INFO "Tried insert another rule to a full static rules table\n");
@@ -17,7 +18,10 @@ void add_static_table_rule(const char *user_space_buf) {
 	}
 
 	printk(KERN_INFO "copy from user\n");
-	copy_from_user(rule_ptr,(rule_t *) user_space_buf, sizeof(rule_t));
+	if(counter = copy_from_user(rule_ptr,(rule_t *) user_space_buf, sizeof(rule_t))) {
+		printk(KERN_INFO "Could not write %d", counter);
+		return;
+	}
 	print_rule_kernel_mode(rule_ptr);
 	number_of_rules_in_table++;
 }
