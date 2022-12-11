@@ -139,7 +139,7 @@ void load_rules(char *path_to_rules_file)
         print_rule(&rule);
         printf("sizeof(rule_t): %d\n", sizeof(rule_t));
         printf("rule: %p\n", &rule);
-        printf("print user space chars of the rule:\n");
+        printf("print user space chars of the rule load rules:\n");
         for(i = 0; i < 60; i++) {
             printf("%i-%c-%d\t", i, ((char *)&rule)[i], ((char *)&rule)[i]);
         }
@@ -166,13 +166,12 @@ void show_rules(void)
 
     show_fw_rules_fp = open(RULES_ATTR_PATH, O_RDONLY);
 
-    // TODO: add a loop for reading and printing all the rules
-    while (0)
-    {
-        read(show_fw_rules_fp, rule_buffer, RULE_SIZE);
+    read(show_fw_rules_fp, rule_buffer, RULE_SIZE);
+    
+    printf("print user space chars of the rule:\n");
+    for(i = 0; i < 60; i++) {
+        printf("%i-%c-%d\t", i, ((char *)&rule_buffer)[i], ((char *)&rule_buffer)[i]);
     }
-    // TODO: parse the <rule_buffer> into the fields and print the fields
-    printf("rule\n");
     close(show_fw_rules_fp);
 }
 
