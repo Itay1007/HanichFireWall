@@ -18,7 +18,7 @@ void add_static_table_rule(const char *user_space_buf) {
 
 	printk(KERN_INFO "copy from user\n");
 	copy_from_user(rule_ptr,(rule_t *) user_space_buf, sizeof(rule_t));
-	print_rule_kernel_mode(&a);
+	print_rule_kernel_mode(rule_ptr);
 	number_of_rules_in_table++;
 }
 
