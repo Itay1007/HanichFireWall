@@ -160,18 +160,23 @@ void show_rules(void)
     // TODO: fix this to the real size of the rule structure from fw.h
     unsigned int RULE_SIZE = 100;
     // TODO: fix this to the real log structure from fw.h
-    char rule_buffer[100];
+    // rule_t static_rules_table[MAX_RULES];
+    rule_t rule;
+    char *char_ptr_rule = &rule;
 
     printf("User space show rules\n");
 
     show_fw_rules_fp = open(RULES_ATTR_PATH, O_RDONLY);
 
-    read(show_fw_rules_fp, rule_buffer, RULE_SIZE);
+    read(show_fw_rules_fp, char_ptr_rule, RULE_SIZE);
     
     printf("print user space chars of the rule:\n");
     for(i = 0; i < 60; i++) {
-        printf("%i-%c-%d\t", i, ((char *)&rule_buffer)[i], ((char *)&rule_buffer)[i]);
+        printf("%i-%c-%d\t", i, ((char *)&char_ptr_rule)[i], ((char *)&char_ptr_rule)[i]);
     }
+
+    print_rule(&rule);
+
     close(show_fw_rules_fp);
 }
 
