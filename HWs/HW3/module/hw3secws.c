@@ -48,7 +48,7 @@ ssize_t display_rules(struct device *dev, struct device_attribute *attr, char *b
 ssize_t modify_rules(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
 	rule_t rule;
 	printk(KERN_INFO "write a rule to the fw rules table\n");
-	if(copy_from_user(&rule, (rlue_t *) buf, sizeof(rule_t))) {
+	if(copy_from_user(&rule, (rule_t *) buf, sizeof(rule_t))) {
 		printk("Error in copy from user\n");
 		return 0;
 	}
