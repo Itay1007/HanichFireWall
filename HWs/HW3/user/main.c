@@ -162,7 +162,7 @@ void show_rules(void)
     // TODO: fix this to the real log structure from fw.h
     // rule_t static_rules_table[MAX_RULES];
     rule_t rule;
-    char *char_ptr_rule = &rule;
+    char *char_ptr_rule = (char *) &rule;
 
     printf("User space show rules\n");
 
