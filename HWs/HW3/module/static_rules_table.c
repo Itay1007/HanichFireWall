@@ -8,14 +8,14 @@ void prepare_static_rules_table(void) {
 	printk(KERN_INFO "prepare the firewall static rules table\n");
 }
 
-void add_static_table_rule(const char *buf) {
+void add_static_table_rule(const char *user_space_buf) {
 	if(number_of_rules_in_table >= 50) {
 		printk(KERN_INFO "Tried insert another rule to a full static rules table\n");
 		return;
 	}
 
 	printk(KERN_INFO "copy from user\n");
-	copy_from_user(&static_rules_table[number_of_rules_in_table], buf, sizeof(rule_t));
+	copy_from_user(&static_rules_table[number_of_rules_in_table],(rule_t *) user_space_buf, sizeof(rule_t));
 	print_rule_kernel_mode(&static_rules_table[number_of_rules_in_table]);
 	number_of_rules_in_table++;
 }
