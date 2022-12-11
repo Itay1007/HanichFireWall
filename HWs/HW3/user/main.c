@@ -137,7 +137,7 @@ void load_rules(char *path_to_rules_file)
         parse_line_to_rule(&rule, rule_chars_line);
         print_rule(&rule);
         printf("sizeof(rule_t): %d\n", sizeof(rule_t));
-        printf("rule: %p\n", rule);
+        printf("rule: %p\n", &rule);
         write(firewall_update_rules_fp, &rule, sizeof(rule));
     }
 
