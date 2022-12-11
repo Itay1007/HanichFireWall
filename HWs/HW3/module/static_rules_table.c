@@ -19,6 +19,23 @@ void add_static_table_rule(const char *buf) {
 	number_of_rules_in_table++;
 }
 
+void print_rule_kernel_mode(rule_t *rule_ptr) {
+        printk("Data of a rule:\n");
+        printk("rule name: %s\n", rule_ptr->rule_name);
+        printk("direction: %d\n", rule_ptr->direction);
+        printk("source sample network ip address: %d\n", rule_ptr->src_ip);
+        printk("source mask number in be: %d\n", rule_ptr->src_prefix_mask);
+        printk("dest mask size: %d\n", rule_ptr->src_prefix_size);
+        printk("dest sample network ip address: %d\n", rule_ptr->dst_ip);
+        printk("dest mask number in be: %d\n", rule_ptr->dst_prefix_mask);
+        printk("dest mask size: %d\n", rule_ptr->dst_prefix_size);
+        printk("protocol number: %d\n", rule_ptr->protocol);
+        printk("source port: %d\n", rule_ptr->src_port);
+        printk("dest port: %d\n", rule_ptr->dst_port);
+        printk("ack: %d\n", rule_ptr->ack);
+        printk("action: %d\n", rule_ptr->action);
+}
+
 void delete_static_rule_table() {
 	memset(static_rules_table, 0 , sizeof(static_rules_table));
 	number_of_rules_in_table = 0;

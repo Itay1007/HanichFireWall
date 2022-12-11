@@ -52,6 +52,7 @@ ssize_t modify_rules(struct device *dev, struct device_attribute *attr, const ch
 }
 
 ssize_t display_reset_log_flag(struct device *dev, struct device_attribute *attr, char *buf) {
+	printk(KERN_INFO "display_reset_log_flag\n");	
 	return 0;
 }
 
