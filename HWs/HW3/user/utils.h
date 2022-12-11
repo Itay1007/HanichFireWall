@@ -80,6 +80,8 @@ typedef struct {
 unsigned int make_be_ip_number(char * ip);
 unsigned int make_network_mask_size_ip_be_number(unsigned int network_mask_size);
 void fill_ip_mask(char *ip, char *mask, char *rule_line_token);
+void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line);
 void print_rule(rule_t *rule_ptr);
+void print_rule_in_format(rule_t *rule_ptr);
 
 #endif // _UTILS_H_

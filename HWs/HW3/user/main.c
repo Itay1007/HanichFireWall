@@ -18,105 +18,6 @@
 // •	show_log
 // •	clear_log
 
-
-void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
-    int i = 0, j = 0;
-    int rule_element_i = 0;
-    char rule_line_token[20];
-    char ip[20];
-    char mask[3];
-    unsigned int be_ip_number;
-    unsigned char mask_size;
-
-    for(rule_element_i = 0; rule_element_i < 9; rule_element_i) {
-        for(; rule_chars_line[i] == ' ' || rule_chars_line[i] == '\0' || rule_chars_line[i] == '\n'; i++) {
-        }
-
-        for(j = 0; rule_chars_line[i] != ' ' && rule_chars_line[i] != '\0' && rule_chars_line[i] != '\n'; i++, j++) {
-            rule_line_token[j] = rule_chars_line[i];
-        }
-        rule_line_token[j] = '\0';
-
-        switch(rule_element_i) {
-            case 0: for(j = 0; rule_chars_line[j]; j++) {
-                        rule_ptr->rule_name[j] = rule_chars_line[j];
-                    }
-                    rule_ptr->rule_name[j] = '\0';
-                    break;
-            case 1: if(!strncmp(rule_line_token, "in", strlen("in"))) {
-                        rule_ptr->direction = DIRECTION_IN;
-                    }
-                    else if(!strncmp(rule_line_token, "out", strlen("out"))) {
-                        rule_ptr->direction = DIRECTION_OUT;
-                    }
-                    else {
-                        rule_ptr->direction = DIRECTION_ANY;
-                    }
-                    break;
-            case 2: if (!strncmp(rule_line_token, "any", strlen("any"))) {
-                        rule_ptr->src_ip = 0;
-                        break;
-                    }
-                    fill_ip_mask(ip, mask, rule_line_token);
-                    be_ip_number = make_be_ip_number(ip);
-                    rule_ptr->src_ip = be_ip_number;
-                    mask_size = atoi(mask);
-                    rule_ptr->src_prefix_mask = make_network_mask_size_ip_be_number(mask_size);
-                    rule_ptr->src_prefix_size = mask_size;
-                    break;
-            case 3: if (!strncmp(rule_line_token, "any", strlen("any"))) {
-                        rule_ptr->dst_ip = 0;
-                        break;
-                    }
-                    fill_ip_mask(ip, mask, rule_line_token);
-                    be_ip_number = make_be_ip_number(ip);
-                    rule_ptr->dst_ip = be_ip_number;
-                    mask_size = atoi(mask);
-                    rule_ptr->dst_prefix_mask = make_network_mask_size_ip_be_number(mask_size);
-                    rule_ptr->dst_prefix_size= mask_size;
-                    break;
-            case 4: if(!strncmp(rule_line_token, "TCP", strlen("TCP"))) {
-                        rule_ptr->protocol = PROT_TCP;
-                    }
-                    else if(!strncmp(rule_line_token, "UDP", strlen("UDP"))) {
-                        rule_ptr->protocol = PROT_UDP;
-                    }
-                    else if(!strncmp(rule_line_token, "ICMP", strlen("ICMP"))) {
-                        rule_ptr->protocol = PROT_ICMP;
-                    }
-                    else {
-                        rule_ptr->protocol = PROT_ANY;
-                    }
-                    break;
-            case 5: rule_ptr->src_port = atoi(rule_line_token);
-                    break;
-            case 6: rule_ptr->dst_port = atoi(rule_line_token);
-                    break;
-            case 7: if(!strncmp(rule_line_token, "yes", strlen("yes"))) {
-                        rule_ptr->ack = ACK_YES;
-                    }
-                    else if(!strncmp(rule_line_token, "no", strlen("no"))) {
-                        rule_ptr->ack = ACK_NO;
-                    }
-                    else {
-                        rule_ptr->ack = ACK_ANY;
-                    }
-                    break;
-            case 8: if(!strncmp(rule_line_token, "accept", strlen("accept"))) {
-                        rule_ptr->action = NF_ACCEPT;
-                    }
-                    else {
-                        rule_ptr->action = NF_DROP;
-                    }
-                    break;
-            default:
-                    printf("File contains invalid number of columns in a line. No {FIREWALL_TABLE_COLMUNS_NUM}\n");
-                    exit(0);
-        }
-        rule_element_i++;    
-    }
-}
-
 // load firewall rules
 // through writing
 // to /sys/class/fw/rules/rules
@@ -170,12 +71,14 @@ void show_rules(void)
 
     read(show_fw_rules_fp, char_ptr_rule, RULE_SIZE);
     
-    printf("print user space chars of the rule:\n");
-    for(i = 0; i < 60; i++) {
-        printf("%i-%c-%d\t", i, ((char *)&char_ptr_rule)[i], ((char *)&char_ptr_rule)[i]);
-    }
+    // printf("print user space chars of the rule:\n");
+    // for(i = 0; i < 60; i++) {
+    //     printf("%i-%c-%d\t", i, ((char *)&char_ptr_rule)[i], ((char *)&char_ptr_rule)[i]);
+    // }
 
     print_rule(&rule);
+
+    print_rule_in_format(&rule);
 
     close(show_fw_rules_fp);
 }
