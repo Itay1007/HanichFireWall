@@ -40,6 +40,7 @@ static unsigned int netfilter_forward_hook(void *priv, struct sk_buff *skb, cons
 
 // sysfs show function, the function that read from the attribute to the user
 ssize_t display_rules(struct device *dev, struct device_attribute *attr, char *buf) {
+	printk(KERN_INFO "read rules from the rule table\n");
 	return scnprintf(buf, PAGE_SIZE, "%u\n", accepted_packets_counter);
 }
 
@@ -51,11 +52,11 @@ ssize_t modify_rules(struct device *dev, struct device_attribute *attr, const ch
 }
 
 ssize_t display_reset_log_flag(struct device *dev, struct device_attribute *attr, char *buf) {
-	return scnprintf(buf, PAGE_SIZE, "%u\n", accepted_packets_counter);
+	return 0;
 }
 
 // sysfs store function, the function that writes to the attribute from the user
-ssize_t modify_reset_log_flag(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
+ssize_t modify_reset_log(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
 	int temp;
 	if(sscanf(buf,"%u", &temp) == 1) {
 		dropped_packets_counter = temp;
@@ -65,7 +66,7 @@ ssize_t modify_reset_log_flag(struct device *dev, struct device_attribute *attr,
 
 
 static DEVICE_ATTR(rules, S_IWUSR | S_IRUGO, display_rules, modify_rules);
-static DEVICE_ATTR(reset, S_IWUSR | S_IRUGO, display_reset_log_flag, modify_reset_log_flag);
+static DEVICE_ATTR(reset, S_IWUSR | S_IRUGO, display_reset_log_flag, modify_reset_log);
 
 
 static struct file_operations fw_log_fops = {
@@ -165,19 +166,22 @@ int create_device() {
 
 // init function that is called when the module is loaded to the kernel
 static int __init my_module_init_function(void) {
+	printk(KERN_INFO "init the kernel module firewall.ko\n");
 	if(create_network_hook() != 0) {
 		return -1;
 	}
-
+	printk(KERN_INFO "created the forward network hook\n");
 	if(create_devices() != 0) {
 		return -1;
 	}
+	printk(KERN_INFO "created the rule table and packets log devices\n");
 
 	return 0;
 }
 
 // exit function that is called when the module is removed from the kernel
 static void __exit my_module_exit_function(void) {
+	printk(KERN_INFO "exit the kernel module firewall.ko\n");
 	if(nf_net_forward_hook != NULL) {
 		nf_unregister_net_hook(&init_net, nf_net_forward_hook);
 		kfree(nf_net_forward_hook);
