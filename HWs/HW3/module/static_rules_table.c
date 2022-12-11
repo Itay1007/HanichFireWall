@@ -11,6 +11,7 @@ void prepare_static_rules_table(void) {
 void add_static_table_rule(const char __user *user_space_buf) {
 	rule_t *rule_ptr = (rule_t *) kmalloc(sizeof(rule_t), GFP_KERNEL);
 	int counter;
+	int i = 0;
 
 	if(number_of_rules_in_table >= 50) {
 		printk(KERN_INFO "Tried insert another rule to a full static rules table\n");
