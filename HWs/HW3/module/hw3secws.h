@@ -4,7 +4,7 @@
 static unsigned int netfilter_forward_hook(void *priv, struct sk_buff *skb, const struct nf_hook_state *state);
 
 ssize_t display_rules(struct device *dev, struct device_attribute *attr, char *buf);
-ssize_t modify_rules(struct device *dev, struct device_attribute *attr, const char *buf, size_t count);
+ssize_t modify_rules(struct device *dev, struct device_attribute *attr, const char __user *buf, size_t count);
 
 ssize_t display_reset_log_flag(struct device *dev, struct device_attribute *attr, char *buf);
 ssize_t modify_reset_log_flag(struct device *dev, struct device_attribute *attr, const char *buf, size_t count);
