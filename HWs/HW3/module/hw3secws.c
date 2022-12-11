@@ -52,7 +52,7 @@ ssize_t modify_rules(struct device *dev, struct device_attribute *attr, const ch
 		printk("Error in copy from user\n");
 		return 0;
 	}
-	printk(KERN_INFO "print the rule %s\n");
+	printk(KERN_INFO "print the rule %s\n", buf);
 	print_rule_kernel_mode(&rule);
 
 	// add_static_table_rule(buf);
