@@ -32,7 +32,7 @@ void add_static_table_rule(const char __user *user_space_buf) {
 	// }
 
 	for(i = 0; i < sizeof(rule_t); i++) {
-		*((char *)rule_ptr + i) = (char *)user_space_buf[i];
+		*((char *)rule_ptr + i) = *((char *)user_space_buf + i);
 	}
 
 	print_rule_kernel_mode(rule_ptr);
