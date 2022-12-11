@@ -136,6 +136,7 @@ void load_rules(char *path_to_rules_file)
         validate_rules_file_line(rule_chars_line);
         parse_line_to_rule(&rule, rule_chars_line);
         print_rule(&rule);
+        printf("sizeof(rule_t): %d\n", sizeof(rule_t));
         write(firewall_update_rules_fp, &rule, sizeof(rule));
     }
 
