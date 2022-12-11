@@ -9,7 +9,7 @@ void prepare_static_rules_table(void) {
 }
 
 void add_static_table_rule(const char *user_space_buf) {
-	rule_t a;
+	rule_t *rule_ptr = (rule_t *) kmalloc(sizeof(rule_t), GFP_KERNEL);
 
 	if(number_of_rules_in_table >= 50) {
 		printk(KERN_INFO "Tried insert another rule to a full static rules table\n");
@@ -17,7 +17,7 @@ void add_static_table_rule(const char *user_space_buf) {
 	}
 
 	printk(KERN_INFO "copy from user\n");
-	copy_from_user(&a,(rule_t *) user_space_buf, sizeof(rule_t));
+	copy_from_user(rule_ptr,(rule_t *) user_space_buf, sizeof(rule_t));
 	print_rule_kernel_mode(&a);
 	number_of_rules_in_table++;
 }
