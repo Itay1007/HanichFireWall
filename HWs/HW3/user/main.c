@@ -70,11 +70,6 @@ void show_rules(void)
     show_fw_rules_fp = open(RULES_ATTR_PATH, O_RDONLY);
 
     read(show_fw_rules_fp, char_ptr_rule, RULE_SIZE);
-    
-    // printf("print user space chars of the rule:\n");
-    // for(i = 0; i < 60; i++) {
-    //     printf("%i-%c-%d\t", i, ((char *)&char_ptr_rule)[i], ((char *)&char_ptr_rule)[i]);
-    // }
 
     print_rule(&rule);
 
