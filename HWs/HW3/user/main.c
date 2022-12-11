@@ -5,8 +5,6 @@
 #include <fcntl.h>
 #include <ctype.h>
 #include "main.h"
-#include "validation.h"
-#include "utils.h"
 
 #define RULES_ATTR_PATH "/sys/class/fw/rules/rules"
 #define RESET_ATTR_PATH "/sys/class/fw/log/reset"
