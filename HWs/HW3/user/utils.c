@@ -2,6 +2,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include "utils.h"
 
 unsigned int make_be_ip_number(char *ip) {
     char ip_octets[4][3];
@@ -65,4 +66,21 @@ void fill_ip_mask(char *ip, char *mask, char *rule_line_token) {
         mask[j] = rule_line_token[i]; 
     }
     mask[j] = '\0';
+}
+
+void print_rule(rule_t *rule_ptr) {
+        printf("Data of a rule:\n");
+        printf("rule name: %s\n", rule_ptr->rule_name);
+        printf("direction: %d\n", rule_ptr->direction);
+        printf("source sample network ip address: %d\n", rule_ptr->src_ip);
+        printf("source mask number in be: %d\n", rule_ptr->src_prefix_mask);
+        printf("dest mask size: %d\n", rule_ptr->src_prefix_size);
+        printf("dest sample network ip address: %d\n", rule_ptr->dst_ip);
+        printf("dest mask number in be: %d\n", rule_ptr->dst_prefix_mask);
+        printf("dest mask size: %d\n", rule_ptr->dst_prefix_size);
+        printf("protocol number: %d\n", rule_ptr->protocol);
+        printf("source port: %d\n", rule_ptr->src_port);
+        printf("dest port: %d\n", rule_ptr->dst_port);
+        printf("ack: %d\n", rule_ptr->ack);
+        printf("action: %d\n", rule_ptr->action);
 }

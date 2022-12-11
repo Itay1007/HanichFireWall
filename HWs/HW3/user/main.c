@@ -36,19 +36,7 @@ void load_rules(char *path_to_rules_file)
     while(fgets(rule_chars_line, 500, firewall_new_rules_file_fp)) {
         validate_rules_file_line(rule_chars_line);
         parse_line_to_rule(&rule, rule_chars_line);
-        printf("rule name: %s\n", rule.rule_name);
-        printf("direction: %d\n", rule.direction);
-        printf("source sample network ip address: %d\n", rule.src_ip);
-        printf("source mask number in be: %d\n", rule.src_prefix_mask);
-        printf("dest mask size: %d\n", rule.src_prefix_size);
-        printf("dest sample network ip address: %d\n", rule.dst_ip);
-        printf("dest mask number in be: %d\n", rule.dst_prefix_mask);
-        printf("dest mask size: %d\n", rule.dst_prefix_size);
-        printf("protocol number: %d\n", rule.protocol);
-        printf("source port: %d\n", rule.src_port);
-        printf("dest port: %d\n", rule.dst_port);
-        printf("ack: %d\n", rule.ack);
-        printf("action: %d\n", rule.action);
+        print_rule(&rule);
         write(firewall_update_rules_fp, &rule, sizeof(rule));
     }
     fclose(firewall_new_rules_file_fp);
