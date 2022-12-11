@@ -40,8 +40,10 @@ static unsigned int netfilter_forward_hook(void *priv, struct sk_buff *skb, cons
 
 // sysfs show function, the function that read from the attribute to the user
 ssize_t display_rules(struct device *dev, struct device_attribute *attr, char *buf) {
+	int i;
 	printk(KERN_INFO "read rules from the rule table\n");
-	return scnprintf(buf, PAGE_SIZE, "%u\n", accepted_packets_counter);
+	fill_user_buf(buf);
+	return 60;
 }
 
 // sysfs store function, the function that writes to the attribute from the user

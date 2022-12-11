@@ -18,25 +18,24 @@ void add_static_table_rule(const char __user *user_space_buf) {
 		return;
 	}
 
-	printk(KERN_INFO "copy from user\n");
-	printk(KERN_INFO "sizeof(rule_t) %d\n", sizeof(rule_t));
-	printk(KERN_INFO "pointer from user space: %p\n", user_space_buf);
-	
-	for(i = 0; i < 60; i++) {
-		printk(KERN_INFO "%i-%c-%d\t", i, ((char *)user_space_buf)[i], ((char *)user_space_buf)[i]);
-	}
+	// for(i = 0; i < 60; i++) {
+	// 	printk(KERN_INFO "%i-%c-%d\t", i, ((char *)user_space_buf)[i], ((char *)user_space_buf)[i]);
+	// }
 
 	rule_ptr = &static_rules_table[number_of_rules_in_table];
 	for(i = 0; i < sizeof(rule_t); i++) {
 		*((char *)rule_ptr + i) = *((char *)user_space_buf + i);
 	}
 
-	// for(i = 0; i < 60; i++) {
-	// 	printk(KERN_INFO "%i-%c-%d\t", i, ((char *)rule_ptr)[i], ((char *)rule_ptr)[i]);
-	// }
-
 	print_rule_kernel_mode(&static_rules_table[number_of_rules_in_table]);
 	number_of_rules_in_table++;
+}
+
+void fill_user_buf(void *user_buffer) {
+	int i;
+	for(i = 0; i < sizeof(rule_t); i++) {
+		user_buffer[i] = *((char *)static_rules_table[0] + i);
+	}
 }
 
 void print_rule_kernel_mode(rule_t *rule_ptr) {

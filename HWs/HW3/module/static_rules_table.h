@@ -10,5 +10,6 @@ int check_rule_for_match(rule_t *table_entry_ptr, struct sk_buff *skb);
 int is_cristmas_tree_packet(struct sk_buff *skb);
 int is_irrelevant_packet(struct sk_buff *skb);
 void print_rule_kernel_mode(rule_t *rule_ptr);
+void fill_user_buf(void *user_buffer);
 
 #endif // _STATIC_RULES_TABLE_H_
