@@ -47,14 +47,15 @@ ssize_t display_rules(struct device *dev, struct device_attribute *attr, char *b
 // sysfs store function, the function that writes to the attribute from the user
 ssize_t modify_rules(struct device *dev, struct device_attribute *attr, const char __user *buf, size_t count) {
 	int i = 0;
+	int res;
 	rule_t rule;
 	printk(KERN_INFO "write a rule to the fw rules table\n");
 	for(i = 0; i < sizeof(rule_t); i++) {
 		printk("buf[%d]=%c=%d\n", i, buf[i], buf[i]);
 	}
 
-	if(copy_from_user(&rule, (rule_t *) buf, sizeof(rule_t))) {
-		printk("Error in copy from user\n");
+	if(res = copy_from_user(&rule, (rule_t *) buf, sizeof(rule_t))) {
+		printk("Error in copy from user. Could not copy %d bytes from user to kernel\n", res);
 		return 0;
 	}
 	print_rule_kernel_mode(&rule);
