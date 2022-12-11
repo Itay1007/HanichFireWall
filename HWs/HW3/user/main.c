@@ -18,28 +18,6 @@
 // •	show_log
 // •	clear_log
 
-// load firewall rules
-// through writing
-// to /sys/class/fw/rules/rules
-void load_rules(char *path_to_rules_file)
-{
-    FILE *firewall_new_rules_file_fp;
-    char rule_chars_line[500] = {0};
-    rule_t rule;
-    int firewall_update_rules_fp;
-    //TODO: add validation of the lines of the file before using it
-    firewall_new_rules_file_fp = fopen(path_to_rules_file, "r");
-    firewall_update_rules_fp = open(RULES_ATTR_PATH, O_WRONLY);
-
-    while(fgets(rule_chars_line, 500, firewall_new_rules_file_fp)) {
-        validate_rules_file_line(rule_chars_line);
-        parse_line_to_rule(&rule, rule_chars_line);
-        print_rule(&rule);
-        write(firewall_update_rules_fp, &rule, sizeof(rule));
-    }
-    fclose(firewall_new_rules_file_fp);
-    close(firewall_update_rules_fp);
-}
 
 void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
     int i = 0, j = 0;
@@ -139,6 +117,32 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
     }
 }
 
+// load firewall rules
+// through writing
+// to /sys/class/fw/rules/rules
+void load_rules(char *path_to_rules_file)
+{
+    FILE *firewall_new_rules_file_fp;
+    char rule_chars_line[500] = {0};
+    rule_t rule;
+    int firewall_update_rules_fp;
+
+    printf("User space load rules\n");
+
+    firewall_new_rules_file_fp = fopen(path_to_rules_file, "r");
+    firewall_update_rules_fp = open(RULES_ATTR_PATH, O_WRONLY);
+
+    while(fgets(rule_chars_line, 500, firewall_new_rules_file_fp)) {
+        validate_rules_file_line(rule_chars_line);
+        parse_line_to_rule(&rule, rule_chars_line);
+        print_rule(&rule);
+        write(firewall_update_rules_fp, &rule, sizeof(rule));
+    }
+
+    fclose(firewall_new_rules_file_fp);
+    close(firewall_update_rules_fp);
+}
+
 // show firewall rules
 // through reading
 // from /sys/class/fw/rules/rules
@@ -150,6 +154,8 @@ void show_rules(void)
     unsigned int RULE_SIZE = 100;
     // TODO: fix this to the real log structure from fw.h
     char rule_buffer[100];
+
+    printf("User space show rules\n");
 
     show_fw_rules_fp = open(RULES_ATTR_PATH, O_RDONLY);
 
@@ -175,6 +181,8 @@ void show_log(void)
     // TODO: fix this to the real log structure from fw.h
     char log_buffer[100];
 
+    printf("User space show log\n");
+
     fw_logs_fp = open(FW_LOG_DEVICE, O_RDONLY);
 
     // TODO: add a loop for reading and printing all the logs
@@ -194,6 +202,8 @@ void clear_log(void)
 {
     int fw_logs_reset_fp;
     int fw_logs_clear_fp;
+
+    printf("User space clear log\n");
 
     // deallocate the log resources
     fw_logs_reset_fp = open(RESET_ATTR_PATH, O_WRONLY);
