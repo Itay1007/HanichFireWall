@@ -66,7 +66,7 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
 
     for(rule_element_i = 0; rule_element_i < 9; rule_element_i) {
         for(; rule_chars_line[i] == ' ' || rule_chars_line[i] == '\0' || rule_chars_line[i] == '\n'; i++) {
-            printf("space in char index: %d\n", i);
+            printf("space in char index: %d: %c: %d\n", i, rule_chars_line[i], rule_chars_line[i]);
         }
 
         for(j = 0; rule_chars_line[i] != ' ' && rule_chars_line[i] != '\0' && rule_chars_line[i] != '\n'; i++, j++) {
@@ -82,7 +82,7 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
                     rule_ptr->rule_name[j] = '\0';
                     break;
             case 1: if(!strncmp(rule_line_token, "in", strlen("in"))) {
-                        printf("direction in\n");
+                        rule_ptr->direction = DIRECTION_IN;
                     }
                     else if(!strncmp(rule_line_token, "out", strlen("out"))) {
                         rule_ptr->direction = DIRECTION_OUT;
@@ -140,13 +140,10 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
                         rule_ptr->ack = ACK_ANY;
                     }
                     break;
-            case 8: printf("here %s\n", rule_line_token);
-                    if(!strncmp(rule_line_token, "accept", strlen("accept"))) {
-                        printf("accept line\n");
+            case 8: if(!strncmp(rule_line_token, "accept", strlen("accept"))) {
                         rule_ptr->action = NF_ACCEPT;
                     }
                     else {
-                        printf("drop line\n");
                         rule_ptr->action = NF_DROP;
                     }
                     break;

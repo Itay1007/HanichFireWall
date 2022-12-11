@@ -8,7 +8,6 @@ unsigned int make_be_ip_number(char *ip) {
     char *ip_octet;
     int i, j, k;
     unsigned int be_ip_number;
-    printf("make_be_ip_number %s\n", ip);
 
     for(i = 0, j = 0, k = 0; ip[i]; i++) {
         if(ip[i] == '.') {
@@ -31,17 +30,21 @@ unsigned int make_be_ip_number(char *ip) {
 
 unsigned int make_network_mask_size_ip_be_number(unsigned int network_mask_size)
 {
-    int i = 0;
-    unsigned int build_be_network_mask_ip_be_number;
+    int i = 0, full_octets_number = 0, bits_in_partial_octet_number;
+    unsigned int build_be_network_mask_ip_be_number = 0;
 
     if(network_mask_size == 0) {
         return build_be_network_mask_ip_be_number;
     }
 
-    build_be_network_mask_ip_be_number += 1;
-    for(i = 0; i < network_mask_size - 1; i ++) {
-        build_be_network_mask_ip_be_number << 1;
-        build_be_network_mask_ip_be_number += 1;
+    full_octets_number = network_mask_size / 8;
+    for(i = 0; i < full_octets_number; i++) {
+        build_be_network_mask_ip_be_number += 255 * pow(256, i);
+    }
+
+    bits_in_partial_octet_number = network_mask_size % 8;
+    for(i = 0; i < bits_in_partial_octet_number; i++) {
+        build_be_network_mask_ip_be_number += pow(256, full_octets_number) * pow(2, 7 - i);
     }
 
     return build_be_network_mask_ip_be_number;
@@ -52,18 +55,14 @@ void fill_ip_mask(char *ip, char *mask, char *rule_line_token) {
     int j;
     char sep = '/';
 
-    printf("fill ip/mask %s\n", rule_line_token);
-
     for(i = 0, j = 0; rule_line_token[i] != sep; i++, j++) {
         ip[j] = rule_line_token[i];
     }
     ip[j] = '\0';
 
-    printf("ip %s\n", ip);
     for(i++, j = 0 ; rule_line_token[i] && j < 2; i++, j++)
     {
         mask[j] = rule_line_token[i]; 
     }
     mask[j] = '\0';
-    printf("mask %s\n", mask);
 }
