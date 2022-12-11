@@ -9,14 +9,16 @@ void prepare_static_rules_table(void) {
 }
 
 void add_static_table_rule(const char *user_space_buf) {
+	rule_t a;
+
 	if(number_of_rules_in_table >= 50) {
 		printk(KERN_INFO "Tried insert another rule to a full static rules table\n");
 		return;
 	}
 
 	printk(KERN_INFO "copy from user\n");
-	copy_from_user(&static_rules_table[number_of_rules_in_table],(rule_t *) user_space_buf, sizeof(rule_t));
-	print_rule_kernel_mode(&static_rules_table[number_of_rules_in_table]);
+	copy_from_user(&a,(rule_t *) user_space_buf, sizeof(rule_t));
+	print_rule_kernel_mode(&a);
 	number_of_rules_in_table++;
 }
 
