@@ -19,28 +19,29 @@ void add_static_table_rule(const char __user *user_space_buf) {
 
 	printk(KERN_INFO "copy from user\n");
 	if(counter = copy_from_user(rule_ptr,(rule_t *) user_space_buf, sizeof(rule_t))) {
-		printk(KERN_INFO "Could not write %d", counter);
+		printk(KERN_INFO "Could not write %d\n", counter);
 		return;
 	}
+	printk(KERN_INFO "after if\n");
 	print_rule_kernel_mode(rule_ptr);
 	number_of_rules_in_table++;
 }
 
 void print_rule_kernel_mode(rule_t *rule_ptr) {
-        printk("Data of a rule:\n");
-        printk("rule name: %s\n", rule_ptr->rule_name);
-        printk("direction: %d\n", rule_ptr->direction);
-        printk("source sample network ip address: %d\n", rule_ptr->src_ip);
-        printk("source mask number in be: %d\n", rule_ptr->src_prefix_mask);
-        printk("dest mask size: %d\n", rule_ptr->src_prefix_size);
-        printk("dest sample network ip address: %d\n", rule_ptr->dst_ip);
-        printk("dest mask number in be: %d\n", rule_ptr->dst_prefix_mask);
-        printk("dest mask size: %d\n", rule_ptr->dst_prefix_size);
-        printk("protocol number: %d\n", rule_ptr->protocol);
-        printk("source port: %d\n", rule_ptr->src_port);
-        printk("dest port: %d\n", rule_ptr->dst_port);
-        printk("ack: %d\n", rule_ptr->ack);
-        printk("action: %d\n", rule_ptr->action);
+        printk(KERN_INFO "Data of a rule:\n");
+        printk(KERN_INFO "rule name: %s\n", rule_ptr->rule_name);
+        printk(KERN_INFO "direction: %d\n", rule_ptr->direction);
+        printk(KERN_INFO "source sample network ip address: %d\n", rule_ptr->src_ip);
+        printk(KERN_INFO "source mask number in be: %d\n", rule_ptr->src_prefix_mask);
+        printk(KERN_INFO "dest mask size: %d\n", rule_ptr->src_prefix_size);
+        printk(KERN_INFO "dest sample network ip address: %d\n", rule_ptr->dst_ip);
+        printk(KERN_INFO "dest mask number in be: %d\n", rule_ptr->dst_prefix_mask);
+        printk(KERN_INFO "dest mask size: %d\n", rule_ptr->dst_prefix_size);
+        printk(KERN_INFO "protocol number: %d\n", rule_ptr->protocol);
+        printk(KERN_INFO "source port: %d\n", rule_ptr->src_port);
+        printk(KERN_INFO "dest port: %d\n", rule_ptr->dst_port);
+        printk(KERN_INFO "ack: %d\n", rule_ptr->ack);
+        printk(KERN_INFO "action: %d\n", rule_ptr->action);
 }
 
 void delete_static_rule_table() {
