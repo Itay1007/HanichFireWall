@@ -200,11 +200,11 @@ void print_rule_in_format(rule_t *rule_ptr) {
                     break;
             case 2: print_network_sample_ip(rule_ptr->src_ip);
                     printf("/");
-                    printf("%d", rule_ptr->src_prefix_mask);
+                    printf("%d", rule_ptr->src_prefix_size);
                     break;
             case 3: print_network_sample_ip(rule_ptr->dst_ip);
                     printf("/");
-                    printf("%d", rule_ptr->dst_prefix_mask);
+                    printf("%d", rule_ptr->dst_prefix_size);
                     break;
             case 4: print_protocol(rule_ptr->protocol);
                     break;
