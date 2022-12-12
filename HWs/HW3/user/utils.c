@@ -27,7 +27,7 @@ unsigned int make_be_ip_number(char *ip) {
     ip_octets[j][k] = '\0';
 
     for(i = 0; i < 4; i++) {
-        printf("ip_octets[%d]: %s\n", ip_octet[i]);
+        printf("ip_octets[%d]: %s\n", i, ip_octet[i]);
     }
 
     be_ip_number = 0;
