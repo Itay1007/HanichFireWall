@@ -299,13 +299,9 @@ void print_network_sample_ip(unsigned int be_sample_network_ip_number) {
     char char_ptr_sample_ip[15];
     unsigned char ip_octets[4];
 
-    printf("be_sample_network_ip_number: %u\n", be_sample_network_ip_number);
-
     for(i = 0, j = 0; i < 4; i++, j++) {
         ip_octets[i] = (be_sample_network_ip_number >> (8 * i)) % 256;
-        printf("octets[%d]: %u\n", i, ip_octets[i]);
     }
 
     sprintf(char_ptr_sample_ip, "%d.%d.%d.%d", ip_octets[0], ip_octets[1], ip_octets[2], ip_octets[3]);
-    printf("%s", char_ptr_sample_ip);
 }
