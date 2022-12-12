@@ -304,4 +304,5 @@ void print_network_sample_ip(unsigned int be_sample_network_ip_number) {
     }
 
     sprintf(char_ptr_sample_ip, "%d.%d.%d.%d", ip_octets[0], ip_octets[1], ip_octets[2], ip_octets[3]);
+    printf("%s", char_ptr_sample_ip);
 }
