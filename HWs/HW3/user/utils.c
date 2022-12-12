@@ -228,13 +228,13 @@ void print_rule_in_format(rule_t *rule_ptr) {
 }
 
 void print_direction(direction_t direction) {
-    if(direction = DIRECTION_IN){
+    if(direction == DIRECTION_IN){
         printf("in");
     }
-    else if(direction = DIRECTION_OUT){
+    else if(direction == DIRECTION_OUT){
         printf("out");
     }
-    else if(direction = DIRECTION_ANY){
+    else if(direction == DIRECTION_ANY){
         printf("any");
     }
 }
