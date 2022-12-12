@@ -195,34 +195,39 @@ void print_rule_in_format(rule_t *rule_ptr) {
     for(rule_element_i = 0; rule_element_i < 9; rule_element_i) {
         switch(rule_element_i) {
             case 0: printf("%s", rule_ptr->rule_name);
-                    printf(" ");
                     break;
             case 1: print_direction(rule_ptr->direction);
-                    printf(" ");
                     break;
-            case 2: 
+            case 2: print_network_sample_ip(rule_ptr->src_ip);
+                    printf("/");
+                    printf("%d", rule_ptr->src_prefix_mask);
                     break;
-            case 3:
+            case 3: print_network_sample_ip(rule_ptr->dst_ip);
+                    printf("/");
+                    printf("%d", rule_ptr->dst_prefix_mask);
                     break;
             case 4: print_protocol(rule_ptr->protocol);
-                    printf(" ");
                     break;
             case 5: print_port(rule_ptr->src_port);
-                    printf(" ");
                     break;
             case 6: print_port(rule_ptr->dst_port);
-                    printf(" ");
                     break;
             case 7: print_ack(rule_ptr->ack);
-                    printf(" ");
                     break;
             case 8: print_action(rule_ptr->action);
-                    printf(" ");
                     break;
             default:
                     printf("File contains invalid number of columns in a line. No {FIREWALL_TABLE_COLMUNS_NUM}\n");
                     exit(0);
         }
+
+        if(rule_element_i != 8) {
+            printf(" ");
+        }
+        else {
+            printf("\n");
+        }
+
         rule_element_i++;
     }
 }
@@ -289,12 +294,15 @@ void print_port(unsigned short port) {
     }
 }
 
-void print_network_ip_sample(unsigned int ip) {
-    if(ip == 0) {
-        printf("any");
-    }
-    else {
+void print_network_sample_ip(unsigned int be_sample_network_ip_number) {
+    int i, j;
+    char char_ptr_sample_ip[15];
+    unsigned char ip_octets[4];
 
+    for(i = 0, j = 0; i < 4; i++, j++) {
+        ip_octets[i] = (be_sample_network_ip_number >> (8 * i)) % 256;
     }
 
+    sprintf(char_ptr_sample_ip, "%d.%d.%d.%d", ip_octets[0], ip_octets[1], ip_octets[2], ip_octets[3]);
+    printf("%s", char_ptr_sample_ip);
 }

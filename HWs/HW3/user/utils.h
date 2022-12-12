@@ -88,6 +88,6 @@ void print_protocol(prot_t protocol);
 void print_ack(ack_t ack);
 void print_action(unsigned char action);
 void print_port(unsigned short port);
-void print_network_ip_sample(unsigned int ip);
+void print_network_sample_ip(unsigned int be_sample_network_ip_number);
 
 #endif // _UTILS_H_
