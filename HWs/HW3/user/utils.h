@@ -83,5 +83,11 @@ void fill_ip_mask(char *ip, char *mask, char *rule_line_token);
 void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line);
 void print_rule(rule_t *rule_ptr);
 void print_rule_in_format(rule_t *rule_ptr);
+void print_direction(direction_t direction);
+void print_protocol(prot_t protocol);
+void print_ack(ack_t ack);
+void print_action(unsigned char action);
+void print_port(unsigned short port);
+void print_network_ip_sample(unsigned int ip);
 
 #endif // _UTILS_H_
