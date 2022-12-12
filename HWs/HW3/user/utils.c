@@ -9,9 +9,6 @@ unsigned int make_be_ip_number(char *ip) {
     int i, j, k;
     unsigned int be_ip_number;
 
-    printf("make_be_ip_number\n");
-    printf("ip %s\n", ip);
-
     for(i = 0, j = 0, k = 0; ip[i]; i++) {
         if(ip[i] == '.') {
             ip_octets[j][k] = '\0';
@@ -24,10 +21,6 @@ unsigned int make_be_ip_number(char *ip) {
         }
     }
     ip_octets[j][k] = '\0';
-
-    for(i = 0; i < 4; i++) {
-        printf("ip_octets[%d]: %s\n", i, ip_octets[i]);
-    }
 
     be_ip_number = 0;
     for(j = 0; j < 4; j++) {
@@ -173,23 +166,6 @@ void parse_line_to_rule(rule_t *rule_ptr, char* rule_chars_line) {
     }
 }
 
-void print_rule(rule_t *rule_ptr) {
-        printf("Data of a rule:\n");
-        printf("rule name: %s\n", rule_ptr->rule_name);
-        printf("direction: %d\n", rule_ptr->direction);
-        printf("source sample network ip address: %d\n", rule_ptr->src_ip);
-        printf("source mask number in be: %d\n", rule_ptr->src_prefix_mask);
-        printf("dest mask size: %d\n", rule_ptr->src_prefix_size);
-        printf("dest sample network ip address: %d\n", rule_ptr->dst_ip);
-        printf("dest mask number in be: %d\n", rule_ptr->dst_prefix_mask);
-        printf("dest mask size: %d\n", rule_ptr->dst_prefix_size);
-        printf("protocol number: %d\n", rule_ptr->protocol);
-        printf("source port: %d\n", rule_ptr->src_port);
-        printf("dest port: %d\n", rule_ptr->dst_port);
-        printf("ack: %d\n", rule_ptr->ack);
-        printf("action: %d\n", rule_ptr->action);
-}
-
 void print_rule_in_format(rule_t *rule_ptr) {
     int i = 0, j = 0;
     int rule_element_i = 0;
@@ -237,6 +213,23 @@ void print_rule_in_format(rule_t *rule_ptr) {
 
         rule_element_i++;
     }
+}
+
+void print_rule(rule_t *rule_ptr) {
+        printf("Data of a rule:\n");
+        printf("rule name: %s\n", rule_ptr->rule_name);
+        printf("direction: %d\n", rule_ptr->direction);
+        printf("source sample network ip address: %d\n", rule_ptr->src_ip);
+        printf("source mask number in be: %d\n", rule_ptr->src_prefix_mask);
+        printf("dest mask size: %d\n", rule_ptr->src_prefix_size);
+        printf("dest sample network ip address: %d\n", rule_ptr->dst_ip);
+        printf("dest mask number in be: %d\n", rule_ptr->dst_prefix_mask);
+        printf("dest mask size: %d\n", rule_ptr->dst_prefix_size);
+        printf("protocol number: %d\n", rule_ptr->protocol);
+        printf("source port: %d\n", rule_ptr->src_port);
+        printf("dest port: %d\n", rule_ptr->dst_port);
+        printf("ack: %d\n", rule_ptr->ack);
+        printf("action: %d\n", rule_ptr->action);
 }
 
 void print_direction(direction_t direction) {

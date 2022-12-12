@@ -69,8 +69,6 @@ void show_rules(void)
 
     read(show_fw_rules_fp, char_ptr_rule, RULE_SIZE);
 
-    print_rule(&rule);
-
     print_rule_in_format(&rule);
 
     close(show_fw_rules_fp);
