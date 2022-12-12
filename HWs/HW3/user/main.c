@@ -38,12 +38,10 @@ void load_rules(char *path_to_rules_file)
         validate_rules_file_line(rule_chars_line);
         parse_line_to_rule(&rule, rule_chars_line);
         print_rule(&rule);
-        printf("sizeof(rule_t): %d\n", sizeof(rule_t));
-        printf("rule: %p\n", &rule);
-        printf("print user space chars of the rule load rules:\n");
-        for(i = 0; i < 60; i++) {
-            printf("%i-%c-%d\t", i, ((char *)&rule)[i], ((char *)&rule)[i]);
-        }
+        // printf("print user space chars of the rule load rules:\n");
+        // for(i = 0; i < 60; i++) {
+        //     printf("%i-%c-%d\t", i, ((char *)&rule)[i], ((char *)&rule)[i]);
+        // }
         write(firewall_update_rules_fp, &rule, sizeof(rule));
     }
 
