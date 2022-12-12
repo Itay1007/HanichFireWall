@@ -22,6 +22,8 @@ unsigned int make_be_ip_number(char *ip) {
         }
     }
 
+    ip_octets[j][k] = '\0';
+
     be_ip_number = 0;
     for(j = 0; j < 4; j++) {
         be_ip_number += atoi(ip_octets[j]) * pow(256, j); 
