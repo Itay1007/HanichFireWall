@@ -5,12 +5,12 @@
 #include "utils.h"
 
 unsigned int make_be_ip_number(char *ip) {
-    char ip_octets[4][3];
+    char ip_octets[4][4];
     int i, j, k;
     unsigned int be_ip_number;
 
     printf("make_be_ip_number\n");
-    printf("ip %s", ip);
+    printf("ip %s\n", ip);
 
     for(i = 0, j = 0, k = 0; ip[i]; i++) {
         if(ip[i] == '.') {
